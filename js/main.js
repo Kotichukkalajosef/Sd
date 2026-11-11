@@ -27,25 +27,69 @@
     siteHeader.style.boxShadow = 'none';
   }
 
-  // 3. Mobile Navigation Drawer Toggle
-  var menuBtn = D.querySelector('.menu-toggle');
-  var mobileDrawer = D.querySelector('.mobile-drawer');
-  if (menuBtn && mobileDrawer) {
-    menuBtn.addEventListener('click', function () {
-      var isOpen = mobileDrawer.classList.toggle('open');
-      menuBtn.setAttribute('aria-expanded', isOpen);
-      menuBtn.innerHTML = isOpen
-        ? '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>'
-        : '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>';
+  // 3. Modern Mobile Navigation Drawer Controller
+  function initMobileNav() {
+    var menuBtn = D.querySelector('.menu-toggle');
+    var mobileDrawer = D.querySelector('.mobile-drawer');
+
+    if (!menuBtn || !mobileDrawer) return;
+
+    // Move mobile drawer directly into <body> if it's currently inside .hero-zone
+    // so no parent stacking context, overflow or transform can EVER clip it!
+    if (mobileDrawer.parentElement !== D.body) {
+      D.body.appendChild(mobileDrawer);
+    }
+
+    function openMobileNav() {
+      mobileDrawer.classList.add('open');
+      menuBtn.setAttribute('aria-expanded', 'true');
+      D.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileNav() {
+      mobileDrawer.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+      D.body.style.overflow = '';
+    }
+
+    menuBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if (mobileDrawer.classList.contains('open')) {
+        closeMobileNav();
+      } else {
+        openMobileNav();
+      }
     });
 
-    // Close when clicking a link
-    mobileDrawer.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        mobileDrawer.classList.remove('open');
-        menuBtn.setAttribute('aria-expanded', 'false');
-      });
+    // Delegate click for close button
+    mobileDrawer.addEventListener('click', function (e) {
+      var closeBtn = e.target.closest('.mobile-drawer-close');
+      if (closeBtn) {
+        e.preventDefault();
+        e.stopPropagation();
+        closeMobileNav();
+        return;
+      }
+
+      var navLink = e.target.closest('a');
+      if (navLink) {
+        closeMobileNav();
+      }
     });
+
+    // Close on Escape key
+    W.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && mobileDrawer.classList.contains('open')) {
+        closeMobileNav();
+      }
+    });
+  }
+
+  if (D.readyState === 'loading') {
+    D.addEventListener('DOMContentLoaded', initMobileNav);
+  } else {
+    initMobileNav();
   }
 
   // 4. Scroll Reveal Animations (IntersectionObserver)

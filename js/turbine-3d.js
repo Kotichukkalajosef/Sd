@@ -292,9 +292,11 @@
     var pixelsPerUnit = vh / (2 * Math.tan(camera.fov * Math.PI / 360) * camera.position.z);
     var targetWidth = Math.max((cardRect && cardRect.width) || 0, W.innerWidth * 0.28);
 
+    var cardCenterX = ((cardRect && cardRect.left) || 0) + ((cardRect && cardRect.width) || 0) / 2;
+    var cardCenterY = ((cardRect && cardRect.top) || 0) + ((cardRect && cardRect.height) || 0) / 2;
     masterGroup.position.set(
-      (((cardRect && cardRect.left) || 0) + ((cardRect && cardRect.width) || 0) / 2 - W.innerWidth / 2) / pixelsPerUnit,
-      -(Math.max(((cardRect && cardRect.top) || 0) + ((cardRect && cardRect.height) || 0) / 2, vh * 0.45) - vh / 2) / pixelsPerUnit,
+      (cardCenterX - W.innerWidth / 2) / pixelsPerUnit,
+      -(cardCenterY - vh / 2) / pixelsPerUnit,
       0
     );
     masterGroup.scale.setScalar(targetWidth / pixelsPerUnit / 10.6);
@@ -330,9 +332,20 @@
 
     rotorGroup.rotation.x += rm ? 0 : dt * 0.55;
 
-    // Fade out as page scrolls past hero
-    canvas.style.opacity = Math.max(0, 1 - (scrollY / (vh * 0.75))).toFixed(2);
-    canvas.style.pointerEvents = insideCard ? 'auto' : 'none';
+    // Responsive Fade: Fade out smoothly ONLY when the rotor card actually leaves the viewport!
+    // On mobile, hero content comes first and card is below it, so tying fade directly to card position
+    // prevents the rotor from fading prematurely while the user is still scrolling down to inspect it.
+    var cardCenter = (cardRect ? cardRect.top + cardRect.height / 2 : 0);
+    var fadeOpacity = 1;
+    if (cardRect) {
+      if (cardRect.bottom < 100) {
+        fadeOpacity = Math.max(0, cardRect.bottom / 100);
+      } else if (cardRect.top > vh - 60) {
+        fadeOpacity = Math.max(0, (vh - cardRect.top) / 100);
+      }
+    }
+    canvas.style.opacity = fadeOpacity.toFixed(2);
+    canvas.style.pointerEvents = (insideCard && fadeOpacity > 0.2) ? 'auto' : 'none';
 
     renderer.render(scene, camera);
     requestAnimationFrame(renderLoop);
