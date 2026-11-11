@@ -426,7 +426,7 @@
 
       rotatorEl.classList.add('switching');
       setTimeout(function () {
-        rotatorEl.textContent = servicesList[currentIdx].title || servicesList[currentIdx].fullTitle;
+        rotatorEl.textContent = servicesList[currentIdx].heroTitle || servicesList[currentIdx].title || servicesList[currentIdx].fullTitle;
         rotatorEl.classList.remove('switching');
         isSwitching = false;
       }, 220);

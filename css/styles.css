@@ -396,10 +396,11 @@ img {
 }
 
 .hero-rotator-wrapper {
-  display: inline-block;
+  display: block;
   position: relative;
-  min-height: 1.15em;
-  vertical-align: bottom;
+  /* Reserved height accommodates 2 lines so long titles like O&M (Operation and Maintenance) never shift or push the description and buttons below! */
+  min-height: clamp(80px, 9.5vw, 136px);
+  max-width: 640px;
 }
 
 .hero-highlight-word {
@@ -410,6 +411,7 @@ img {
   filter: drop-shadow(0 0 25px rgba(56, 189, 248, 0.35));
   transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: normal;
+  line-height: 1.08;
 }
 
 .hero-highlight-word.switching {
