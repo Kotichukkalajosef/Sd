@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SD Enterprises | Turbine, TDBFP, Valve Overhauling and Manpower Supply</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+body{margin:0}
+a{text-decoration:none}
+.mono{font-family:'JetBrains Mono',monospace;letter-spacing:.14em;font-size:12px}
+.glass{background:linear-gradient(145deg,rgba(255,255,255,.15),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.22);box-shadow:0 30px 60px -24px rgba(0,0,0,.55);border-radius:20px;box-sizing:border-box}
+.scene{perspective:1200px;width:100%;max-width:580px;aspect-ratio:1;position:relative}
+.tilt{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(62deg) translateY(-6%)}
+.spin{position:absolute;inset:0;transform-style:preserve-3d;animation:rot 26s linear infinite}
+.spin.b{animation-duration:34s;animation-direction:reverse}
+.d{position:absolute;left:50%;top:50%;border-radius:50%;width:var(--s);height:var(--s);margin:calc(var(--s)/-2) 0 0 calc(var(--s)/-2);transform:translateZ(var(--z))}
+.bl{background:repeating-conic-gradient(rgba(214,226,238,.95) 0 5deg,rgba(214,226,238,.1) 5deg 10deg);-webkit-mask:radial-gradient(circle,transparent 0 34%,#000 35%);mask:radial-gradient(circle,transparent 0 34%,#000 35%);box-shadow:inset 0 0 0 3px rgba(255,255,255,.6)}
+.bl.hot{background:repeating-conic-gradient(#F5B94A 0 5deg,rgba(245,185,74,.12) 5deg 10deg)}
+.sh{background:#D6E2EE;box-shadow:0 0 0 4px rgba(255,255,255,.25)}
+.floor{background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent);transform:translateZ(-130px)}
+.t3{transform:perspective(1000px) rotateX(7deg) rotateY(-9deg);transform-style:preserve-3d;transition:transform .45s}
+.t3:hover{transform:perspective(1000px) rotateX(0) rotateY(0) translateY(-10px)}
+.z1{transform:translateZ(46px)}
+.iso{position:relative;width:260px;height:260px;transform-style:preserve-3d;transform:rotateX(58deg) rotateZ(-38deg)}
+.pl{position:absolute;inset:0;border-radius:18px;transform:translateZ(calc(var(--i)*34px));animation:ex 7s ease-in-out infinite}
+@keyframes rot{to{transform:rotateZ(360deg)}}
+@keyframes ex{50%{transform:translateZ(calc(var(--i)*78px))}}
+@media(prefers-reduced-motion:reduce){.spin,.pl{animation:none}}
+.ck{margin:18px 0 0;padding:0;list-style:none;font-size:15px;line-height:1.9}
+.ck li:before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:#F5B94A;margin-right:10px;vertical-align:middle}
+.lift{transition:transform .35s}.lift:hover{transform:translateY(-8px)}
+.g{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:210px;gap:16px}
+.g .w2{grid-column:span 2}.g .h2{grid-row:span 2}
+@media(max-width:800px){.g{grid-template-columns:repeat(2,1fr)}}
+.ph{display:flex;align-items:flex-end;padding:20px;background-image:linear-gradient(145deg,rgba(255,255,255,.15),rgba(255,255,255,.04)),repeating-linear-gradient(135deg,rgba(255,255,255,.07) 0 12px,transparent 12px 24px)}
+.faq details{border-top:1px solid rgba(255,255,255,.2);padding:4px 0}
+.faq details:last-child{border-bottom:1px solid rgba(255,255,255,.2)}
+.faq summary{cursor:pointer;font-size:20px;font-weight:700;min-height:44px;display:flex;align-items:center;padding:12px 0}
+.faq p{margin:0 0 20px;color:#C3D3E3;line-height:1.7;font-size:17px}
+.av{width:72px;height:72px;border-radius:50%;background:repeating-linear-gradient(135deg,rgba(255,255,255,.18) 0 8px,rgba(255,255,255,.05) 8px 16px);border:1px solid rgba(255,255,255,.3)}
+html{scroll-behavior:smooth}html{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{background:radial-gradient(1200px 700px at 78% 0,#1D5A8E,transparent 70%) fixed,#113F67;color-scheme:dark}
+.gl .scene{visibility:hidden}
+.js .rv{opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s ease}
+.js .rv.in{opacity:1;transform:none}
+.glass{position:relative}
+.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.16),transparent 45%)}
+.glass:hover::after{opacity:1}
+.scene{max-width:720px;aspect-ratio:4/3}
+</style>
+</head>
+<body><canvas id="gl" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none"></canvas><div id="pb" style="position:fixed;top:0;left:0;height:3px;width:0;background:#F5B94A;z-index:50"></div>
+<div style="position:relative;z-index:1;color:#F4F8FC;font-family:'Manrope',sans-serif;max-width:1440px;margin:0 auto;box-sizing:border-box;padding:0 clamp(20px,5vw,80px);overflow:hidden">
+
+<nav style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between;padding:28px 0">
+<div style="display:flex;align-items:center;gap:12px;font-weight:800;font-size:18px;letter-spacing:.1em"><img src="assets/icons/logo-removebg-preview-white.png" alt="SD Enterprises Logo" style="height:44px;width:auto;object-fit:contain"><span>SD ENTERPRISES</span></div>
+<div style="display:flex;flex-wrap:wrap;gap:28px;align-items:center;font-size:15px;font-weight:500">
+<a href="#about" style="color:#C3D3E3">About</a><a href="#services" style="color:#C3D3E3">Services</a><a href="#projects" style="color:#C3D3E3">Projects</a><a href="#clients" style="color:#C3D3E3">Clients</a><a href="#gallery" style="color:#C3D3E3">Gallery</a>
+<a href="#contact" style="border:1px solid rgba(255,255,255,.5);color:#F4F8FC;padding:12px 24px;border-radius:999px;min-height:44px;box-sizing:border-box">Request proposal</a>
+</div>
+</nav>
+
+<header style="display:flex;flex-wrap:wrap;align-items:center;gap:24px;padding:40px 0 56px">
+<div style="flex:1 1 460px;min-width:0">
+<div class="mono" style="color:#F5B94A;margin-bottom:24px">TURBINES · TDBFP · VALVES · MANPOWER</div>
+<h1 style="margin:0;font-size:clamp(44px,6.4vw,92px);line-height:1;font-weight:800;letter-spacing:-.04em">Precision overhaul for plants that cannot stop.</h1>
+<p style="margin:28px 0 36px;font-size:19px;line-height:1.6;color:#C3D3E3;max-width:540px">Capital overhauls of steam turbines, boiler feed pumps and critical valves, delivered by skilled teams on your site. [ONE LINE ON YOUR EXPERIENCE]</p>
+<div style="display:flex;flex-wrap:wrap;gap:14px">
+<a href="#contact" style="background:#F5B94A;color:#0B2E4D;font-weight:800;padding:18px 32px;border-radius:999px;min-height:44px;box-sizing:border-box">Plan your shutdown</a>
+<a href="#projects" style="color:#F4F8FC;font-weight:700;padding:18px 8px;min-height:44px;box-sizing:border-box">View projects →</a><span class="mono" style="color:#C3D3E3;padding:18px 8px">SCROLL TO DISMANTLE ↓</span>
+</div>
+</div>
+<div style="flex:1 1 380px;display:flex;justify-content:center;min-width:0;position:relative;cursor:grab" role="img" aria-label="3D steam turbine rotor with diaphragms. Hover and move the pointer across it to rotate 360 degrees."><div class="mono" style="position:absolute;left:0;right:0;bottom:-6px;text-align:center;color:#C3D3E3">HOVER AND SWEEP TO ROTATE 360°</div>
+<div class="scene"><div class="tilt">
+<div class="d floor" style="--s:100%;--z:-130px"></div>
+<div class="spin">
+<div class="d sh" style="--s:14%;--z:-110px"></div><div class="d sh" style="--s:14%;--z:-60px"></div><div class="d sh" style="--s:14%;--z:-10px"></div><div class="d sh" style="--s:14%;--z:40px"></div><div class="d sh" style="--s:14%;--z:90px"></div><div class="d sh" style="--s:14%;--z:140px"></div>
+<div class="d bl" style="--s:66%;--z:-90px"></div><div class="d bl" style="--s:82%;--z:-30px"></div><div class="d bl hot" style="--s:94%;--z:30px"></div><div class="d bl" style="--s:74%;--z:90px"></div>
+</div>
+<div class="spin b">
+<div class="d bl" style="--s:74%;--z:-60px"></div><div class="d bl" style="--s:88%;--z:0px"></div><div class="d bl" style="--s:80%;--z:60px"></div><div class="d bl" style="--s:60%;--z:120px"></div>
+</div>
+</div></div>
+</div>
+</header>
+
+<section class="glass rv" style="display:flex;flex-wrap:wrap;padding:8px 16px">
+<div style="flex:1 1 200px;padding:24px"><div style="font-size:44px;font-weight:800;letter-spacing:-.03em">[XX]+</div><div class="mono" style="color:#C3D3E3;margin-top:6px">PROJECTS DELIVERED</div></div>
+<div style="flex:1 1 200px;padding:24px"><div style="font-size:44px;font-weight:800;letter-spacing:-.03em">[XX]</div><div class="mono" style="color:#C3D3E3;margin-top:6px">PLANTS SERVED</div></div>
+<div style="flex:1 1 200px;padding:24px"><div style="font-size:44px;font-weight:800;letter-spacing:-.03em">[XX]</div><div class="mono" style="color:#C3D3E3;margin-top:6px">TECHNICIANS</div></div>
+<div style="flex:1 1 200px;padding:24px"><div style="font-size:44px;font-weight:800;letter-spacing:-.03em">[XX]</div><div class="mono" style="color:#C3D3E3;margin-top:6px">YEARS IN SERVICE</div></div>
+</section>
+
+<section class="rv" id="about" style="padding:112px 0 24px;display:flex;flex-wrap:wrap;gap:48px;align-items:center">
+<div style="flex:1 1 420px;min-width:0">
+<div class="mono" style="color:#F5B94A;margin-bottom:16px">ABOUT US</div>
+<h2 style="margin:0 0 24px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800">A specialist overhaul partner for power plants.</h2>
+<p style="margin:0 0 16px;font-size:18px;line-height:1.7;color:#C3D3E3">SD Enterprises overhauls steam turbines, boiler feed pump turbines and critical valves, and supplies trained manpower for plant shutdowns. [YEAR FOUNDED, LOCATION AND YOUR STORY IN 2 TO 3 SENTENCES]</p>
+<p style="margin:0 0 28px;font-size:18px;line-height:1.7;color:#C3D3E3">[WHAT MAKES YOU DIFFERENT: SAFETY RECORD, FAST MOBILISATION, DOCUMENTED REPORTS]</p>
+<div style="display:flex;flex-wrap:wrap;gap:10px"><span class="mono" style="border:1px solid rgba(255,255,255,.4);padding:10px 16px;border-radius:999px">[CERTIFICATION]</span><span class="mono" style="border:1px solid rgba(255,255,255,.4);padding:10px 16px;border-radius:999px">[CERTIFICATION]</span><span class="mono" style="border:1px solid rgba(255,255,255,.4);padding:10px 16px;border-radius:999px">[CERTIFICATION]</span></div>
+</div>
+<div style="flex:1 1 360px;min-width:0;perspective:1400px">
+<div class="glass t3" style="padding:12px 32px">
+<div style="display:flex;gap:24px;padding:24px 0;border-bottom:1px solid rgba(255,255,255,.2)"><span class="mono z1" style="color:#F5B94A;padding-top:6px">01</span><div class="z1"><div style="font-size:22px;font-weight:700">Safety first</div><div style="color:#C3D3E3;margin-top:6px;line-height:1.6">Every job starts with a plan for the people on site.</div></div></div>
+<div style="display:flex;gap:24px;padding:24px 0;border-bottom:1px solid rgba(255,255,255,.2)"><span class="mono z1" style="color:#F5B94A;padding-top:6px">02</span><div class="z1"><div style="font-size:22px;font-weight:700">Documented precision</div><div style="color:#C3D3E3;margin-top:6px;line-height:1.6">Clearances and alignment values recorded and handed over.</div></div></div>
+<div style="display:flex;gap:24px;padding:24px 0"><span class="mono z1" style="color:#F5B94A;padding-top:6px">03</span><div class="z1"><div style="font-size:22px;font-weight:700">On-schedule delivery</div><div style="color:#C3D3E3;margin-top:6px;line-height:1.6">Your shutdown window is the deadline we plan around.</div></div></div>
+</div>
+</div>
+</section>
+
+<section class="rv" id="principles" style="padding:112px 0 24px"><div class="mono" style="color:#F5B94A;margin-bottom:16px">OUR PRINCIPLES</div><h2 style="margin:0 0 40px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800;max-width:820px">How we work, every time.</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px"><div class="glass lift" style="padding:28px;min-height:230px;display:flex;flex-direction:column;justify-content:space-between"><div class="mono" style="color:#F5B94A">01</div><div><h3 style="margin:0 0 10px;font-size:22px">Safety before schedule</h3><p style="margin:0;color:#C3D3E3;line-height:1.6">No job is worth an injury. Permits, toolbox talks and risk reviews come first.</p></div></div><div class="glass lift" style="padding:28px;min-height:230px;display:flex;flex-direction:column;justify-content:space-between"><div class="mono" style="color:#F5B94A">02</div><div><h3 style="margin:0 0 10px;font-size:22px">Precision you can verify</h3><p style="margin:0;color:#C3D3E3;line-height:1.6">Measurements are recorded and shared, never left to memory.</p></div></div><div class="glass lift" style="padding:28px;min-height:230px;display:flex;flex-direction:column;justify-content:space-between"><div class="mono" style="color:#F5B94A">03</div><div><h3 style="margin:0 0 10px;font-size:22px">Honest scope</h3><p style="margin:0;color:#C3D3E3;line-height:1.6">We tell you what we find, including what you did not plan for.</p></div></div><div class="glass lift" style="padding:28px;min-height:230px;display:flex;flex-direction:column;justify-content:space-between"><div class="mono" style="color:#F5B94A">04</div><div><h3 style="margin:0 0 10px;font-size:22px">Respect for your window</h3><p style="margin:0;color:#C3D3E3;line-height:1.6">We plan backwards from your restart date.</p></div></div></div></section>
+
+<section class="rv" id="services" style="padding:112px 0 24px">
+<div class="mono" style="color:#F5B94A;margin-bottom:16px">SERVICES</div>
+<h2 style="margin:0 0 48px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800;max-width:760px">Four disciplines. One accountable partner.</h2>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:24px;perspective:1400px">
+<div class="glass t3" style="padding:32px;min-height:320px;display:flex;flex-direction:column;justify-content:space-between"><div class="mono z1" style="color:#F5B94A">01</div><div class="z1"><h3 style="margin:0 0 12px;font-size:26px;letter-spacing:-.02em">Turbine capital overhauling</h3><p style="margin:0;color:#C3D3E3;line-height:1.6">Full overhaul from casing to rotor to bearings. [ADD CAPACITY RANGE]</p><ul class="ck"><li>Rotor and blade inspection</li><li>Bearing and seal renewal</li><li>Alignment and balancing</li></ul></div></div>
+<div class="glass t3" style="padding:32px;min-height:320px;display:flex;flex-direction:column;justify-content:space-between"><div class="mono z1" style="color:#F5B94A">02</div><div class="z1"><h3 style="margin:0 0 12px;font-size:26px;letter-spacing:-.02em">TDBFP overhauling</h3><p style="margin:0;color:#C3D3E3;line-height:1.6">Boiler feed pump turbines restored to rated performance.</p><ul class="ck"><li>Pump and turbine dismantling</li><li>Clearance restoration</li><li>Performance test support</li></ul></div></div>
+<div class="glass t3" style="padding:32px;min-height:320px;display:flex;flex-direction:column;justify-content:space-between"><div class="mono z1" style="color:#F5B94A">03</div><div class="z1"><h3 style="margin:0 0 12px;font-size:26px;letter-spacing:-.02em">Valve overhauling</h3><p style="margin:0;color:#C3D3E3;line-height:1.6">Reconditioning of critical plant valves. [ADD TYPES]</p><ul class="ck"><li>Lapping and seat repair</li><li>Stem and packing renewal</li><li>Pressure testing</li></ul></div></div>
+<div class="glass t3" style="padding:32px;min-height:320px;display:flex;flex-direction:column;justify-content:space-between"><div class="mono z1" style="color:#F5B94A">04</div><div class="z1"><h3 style="margin:0 0 12px;font-size:26px;letter-spacing:-.02em">Manpower supply</h3><p style="margin:0;color:#C3D3E3;line-height:1.6">Trained fitters, supervisors and technicians for shutdowns.</p><ul class="ck"><li>Fitters and welders</li><li>Supervisors and engineers</li><li>Complete shutdown crews</li></ul></div></div>
+</div>
+</section>
+
+<section class="rv" id="process" style="padding:112px 0 24px;display:flex;flex-wrap:wrap;gap:48px;align-items:center">
+<div style="flex:1 1 320px;display:flex;justify-content:center;align-items:center;min-height:520px" role="img" aria-label="Exploded view of overhaul stages">
+<div class="iso">
+<div class="pl" style="--i:0;background:linear-gradient(145deg,#2B6EA6,#17507F);border:1px solid rgba(255,255,255,.4)"></div>
+<div class="pl" style="--i:1;background:linear-gradient(145deg,#2B6EA6,#17507F);border:1px solid rgba(255,255,255,.4);opacity:.92"></div>
+<div class="pl" style="--i:2;background:linear-gradient(145deg,#3A80BA,#1D5A8E);border:1px solid rgba(255,255,255,.45);opacity:.9"></div>
+<div class="pl" style="--i:3;background:linear-gradient(145deg,#4A90CA,#2B6EA6);border:1px solid rgba(255,255,255,.5);opacity:.88"></div>
+<div class="pl" style="--i:4;background:linear-gradient(145deg,#F5B94A,#C98A1E);border:1px solid rgba(255,255,255,.6)"></div>
+</div>
+</div>
+<div style="flex:1 1 420px;min-width:0">
+<div class="mono" style="color:#F5B94A;margin-bottom:16px">METHODOLOGY</div>
+<h2 style="margin:0 0 32px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800">Every overhaul, taken apart on paper first.</h2>
+<div style="display:flex;flex-direction:column">
+<div style="display:flex;gap:24px;padding:20px 0;border-top:1px solid rgba(255,255,255,.2)"><span class="mono" style="color:#F5B94A;padding-top:6px">01</span><div><div style="font-size:22px;font-weight:700">Inspect</div><div style="color:#C3D3E3;margin-top:4px">Condition survey and agreed scope.</div></div></div>
+<div style="display:flex;gap:24px;padding:20px 0;border-top:1px solid rgba(255,255,255,.2)"><span class="mono" style="color:#F5B94A;padding-top:6px">02</span><div><div style="font-size:22px;font-weight:700">Dismantle</div><div style="color:#C3D3E3;margin-top:4px">Controlled opening, every part tagged.</div></div></div>
+<div style="display:flex;gap:24px;padding:20px 0;border-top:1px solid rgba(255,255,255,.2)"><span class="mono" style="color:#F5B94A;padding-top:6px">03</span><div><div style="font-size:22px;font-weight:700">Recondition</div><div style="color:#C3D3E3;margin-top:4px">Clearances recorded, parts repaired or replaced.</div></div></div>
+<div style="display:flex;gap:24px;padding:20px 0;border-top:1px solid rgba(255,255,255,.2)"><span class="mono" style="color:#F5B94A;padding-top:6px">04</span><div><div style="font-size:22px;font-weight:700">Reassemble and align</div><div style="color:#C3D3E3;margin-top:4px">Box-up to specification, values documented.</div></div></div>
+<div style="display:flex;gap:24px;padding:20px 0;border-top:1px solid rgba(255,255,255,.2);border-bottom:1px solid rgba(255,255,255,.2)"><span class="mono" style="color:#F5B94A;padding-top:6px">05</span><div><div style="font-size:22px;font-weight:700">Test and hand over</div><div style="color:#C3D3E3;margin-top:4px">Commissioning support and a full report.</div></div></div>
+</div>
+</div>
+</section>
+
+<section class="rv" id="projects" style="padding:112px 0 24px">
+<div class="mono" style="color:#F5B94A;margin-bottom:16px">SELECTED PROJECTS</div>
+<h2 style="margin:0 0 40px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800">Delivered on site, on schedule.</h2>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div class="glass" style="padding:24px 32px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between"><div style="font-size:22px;font-weight:700">[PLANT NAME]</div><div style="color:#C3D3E3">[TURBINE CAPITAL OVERHAUL]</div><div class="mono" style="color:#F5B94A">[YEAR] · [XX] DAYS</div></div>
+<div class="glass" style="padding:24px 32px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between"><div style="font-size:22px;font-weight:700">[PLANT NAME]</div><div style="color:#C3D3E3">[TDBFP OVERHAUL]</div><div class="mono" style="color:#F5B94A">[YEAR] · [XX] DAYS</div></div>
+<div class="glass" style="padding:24px 32px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between"><div style="font-size:22px;font-weight:700">[PLANT NAME]</div><div style="color:#C3D3E3">[MANPOWER SUPPLY]</div><div class="mono" style="color:#F5B94A">[YEAR] · [XX] DAYS</div></div>
+</div>
+</section>
+
+<section class="rv" id="clients" style="padding:112px 0 24px"><div class="mono" style="color:#F5B94A;margin-bottom:16px">OUR CLIENTS</div><h2 style="margin:0 0 40px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800;max-width:820px">Trusted by plants across [REGIONS].</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px"><div class="glass lift" style="min-height:110px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[CLIENT LOGO]</span></div><div class="glass lift" style="min-height:110px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[CLIENT LOGO]</span></div><div class="glass lift" style="min-height:110px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[CLIENT LOGO]</span></div><div class="glass lift" style="min-height:110px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[CLIENT LOGO]</span></div><div class="glass lift" style="min-height:110px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[CLIENT LOGO]</span></div><div class="glass lift" style="min-height:110px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[CLIENT LOGO]</span></div><div class="glass lift" style="min-height:110px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[CLIENT LOGO]</span></div><div class="glass lift" style="min-height:110px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[CLIENT LOGO]</span></div></div><div class="mono" style="color:#C3D3E3;margin:40px 0 14px">INDUSTRIES SERVED</div><div style="display:flex;flex-wrap:wrap;gap:10px"><span class="mono" style="border:1px solid rgba(255,255,255,.4);padding:10px 16px;border-radius:999px">THERMAL POWER</span><span class="mono" style="border:1px solid rgba(255,255,255,.4);padding:10px 16px;border-radius:999px">CAPTIVE POWER</span><span class="mono" style="border:1px solid rgba(255,255,255,.4);padding:10px 16px;border-radius:999px">STEEL</span><span class="mono" style="border:1px solid rgba(255,255,255,.4);padding:10px 16px;border-radius:999px">CEMENT</span><span class="mono" style="border:1px solid rgba(255,255,255,.4);padding:10px 16px;border-radius:999px">FERTILISER</span><span class="mono" style="border:1px solid rgba(255,255,255,.4);padding:10px 16px;border-radius:999px">PAPER AND PULP</span></div></section>
+
+<section class="rv" id="principals" style="padding:112px 0 24px"><div class="mono" style="color:#F5B94A;margin-bottom:16px">PRINCIPALS AND ASSOCIATIONS</div><h2 style="margin:0 0 40px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800;max-width:820px">Principals and technical associations.</h2><p style="margin:-16px 0 32px;font-size:18px;line-height:1.7;color:#C3D3E3;max-width:640px">[LIST ONLY GENUINE OEM TIE-UPS, AUTHORISATIONS AND SERVICE PARTNERSHIPS]</p><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px"><div class="glass lift" style="min-height:90px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[PRINCIPAL LOGO]</span></div><div class="glass lift" style="min-height:90px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[PRINCIPAL LOGO]</span></div><div class="glass lift" style="min-height:90px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[PRINCIPAL LOGO]</span></div><div class="glass lift" style="min-height:90px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[PRINCIPAL LOGO]</span></div><div class="glass lift" style="min-height:90px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[PRINCIPAL LOGO]</span></div><div class="glass lift" style="min-height:90px;display:flex;align-items:center;justify-content:center"><span class="mono" style="color:#C3D3E3">[PRINCIPAL LOGO]</span></div></div></section>
+
+<section class="rv" id="certifications" style="padding:112px 0 24px"><div class="mono" style="color:#F5B94A;margin-bottom:16px">CERTIFICATIONS</div><h2 style="margin:0 0 40px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800;max-width:820px">Certified and compliant.</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px"><div class="glass lift" style="padding:28px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between"><div style="font-size:22px;font-weight:700">[ISO 9001]</div><div class="mono" style="color:#C3D3E3">[CERT NO. / VALID TILL]</div></div><div class="glass lift" style="padding:28px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between"><div style="font-size:22px;font-weight:700">[ISO 45001]</div><div class="mono" style="color:#C3D3E3">[CERT NO. / VALID TILL]</div></div><div class="glass lift" style="padding:28px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between"><div style="font-size:22px;font-weight:700">[ISO 14001]</div><div class="mono" style="color:#C3D3E3">[CERT NO. / VALID TILL]</div></div><div class="glass lift" style="padding:28px;min-height:150px;display:flex;flex-direction:column;justify-content:space-between"><div style="font-size:22px;font-weight:700">[GST / MSME]</div><div class="mono" style="color:#C3D3E3">[CERT NO. / VALID TILL]</div></div></div></section>
+
+<section class="rv" id="gallery" style="padding:112px 0 24px">
+<div class="mono" style="color:#F5B94A;margin-bottom:16px">GALLERY</div>
+<h2 style="margin:0 0 40px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800">Life on site.</h2>
+<div class="g">
+<div class="glass ph lift w2 h2" role="img" aria-label="Turbine Rotor On Site photo placeholder"><span class="mono" style="color:#C3D3E3">[PHOTO: TURBINE ROTOR ON SITE]</span></div>
+<div class="glass ph lift " role="img" aria-label="Tdbfp Overhaul photo placeholder"><span class="mono" style="color:#C3D3E3">[PHOTO: TDBFP OVERHAUL]</span></div>
+<div class="glass ph lift " role="img" aria-label="Valve Workshop photo placeholder"><span class="mono" style="color:#C3D3E3">[PHOTO: VALVE WORKSHOP]</span></div>
+<div class="glass ph lift w2" role="img" aria-label="Shutdown Team photo placeholder"><span class="mono" style="color:#C3D3E3">[PHOTO: SHUTDOWN TEAM]</span></div>
+<div class="glass ph lift w2" role="img" aria-label="Alignment Work photo placeholder"><span class="mono" style="color:#C3D3E3">[PHOTO: ALIGNMENT WORK]</span></div>
+<div class="glass ph lift w2" role="img" aria-label="Testing And Handover photo placeholder"><span class="mono" style="color:#C3D3E3">[PHOTO: TESTING AND HANDOVER]</span></div>
+</div>
+</section>
+
+<section class="rv" id="feedback" style="padding:112px 0 24px"><div class="mono" style="color:#F5B94A;margin-bottom:16px">CLIENT FEEDBACK</div><h2 style="margin:0 0 40px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800;max-width:820px">What plant teams say.</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:16px"><div class="glass" style="padding:36px;display:flex;flex-direction:column;justify-content:space-between;gap:28px"><p style="margin:0;font-size:22px;line-height:1.5;font-weight:500">“[CLIENT QUOTE ABOUT YOUR WORK]”</p><div><div style="font-weight:700">[NAME]</div><div class="mono" style="color:#C3D3E3;margin-top:6px">[DESIGNATION] · [PLANT]</div></div></div><div class="glass" style="padding:36px;display:flex;flex-direction:column;justify-content:space-between;gap:28px"><p style="margin:0;font-size:22px;line-height:1.5;font-weight:500">“[CLIENT QUOTE ABOUT YOUR WORK]”</p><div><div style="font-weight:700">[NAME]</div><div class="mono" style="color:#C3D3E3;margin-top:6px">[DESIGNATION] · [PLANT]</div></div></div></div></section>
+
+<section class="rv" id="team" style="padding:112px 0 24px"><div class="mono" style="color:#F5B94A;margin-bottom:16px">LEADERSHIP</div><h2 style="margin:0 0 40px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800;max-width:820px">The people behind the work.</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px"><div class="glass lift" style="padding:28px"><div class="av"></div><h3 style="margin:20px 0 4px;font-size:22px">[NAME]</h3><div class="mono" style="color:#F5B94A">[ROLE]</div><p style="margin:14px 0 0;color:#C3D3E3;line-height:1.6">[ONE LINE ON EXPERIENCE]</p></div><div class="glass lift" style="padding:28px"><div class="av"></div><h3 style="margin:20px 0 4px;font-size:22px">[NAME]</h3><div class="mono" style="color:#F5B94A">[ROLE]</div><p style="margin:14px 0 0;color:#C3D3E3;line-height:1.6">[ONE LINE ON EXPERIENCE]</p></div><div class="glass lift" style="padding:28px"><div class="av"></div><h3 style="margin:20px 0 4px;font-size:22px">[NAME]</h3><div class="mono" style="color:#F5B94A">[ROLE]</div><p style="margin:14px 0 0;color:#C3D3E3;line-height:1.6">[ONE LINE ON EXPERIENCE]</p></div></div></section>
+
+<section class="rv" id="faq" style="padding:112px 0 24px"><div class="mono" style="color:#F5B94A;margin-bottom:16px">FAQ</div><h2 style="margin:0 0 40px;font-size:clamp(34px,4.6vw,64px);letter-spacing:-.035em;line-height:1.05;font-weight:800;max-width:820px">Questions we are often asked.</h2><div class="faq" style="max-width:880px"><details><summary>How quickly can you mobilise a team?</summary><p>[YOUR TYPICAL MOBILISATION TIME]</p></details><details><summary>Do you work at our site or in your workshop?</summary><p>[SITE AND WORKSHOP CAPABILITY]</p></details><details><summary>Which turbine and pump makes do you handle?</summary><p>[LIST OF MAKES]</p></details><details><summary>Do you provide a report after the overhaul?</summary><p>Yes. Measurements and alignment values are recorded and handed over.</p></details></div></section>
+
+<section id="contact" class="glass rv" style="margin-top:112px;padding:clamp(32px,6vw,80px);display:flex;flex-wrap:wrap;gap:32px;align-items:center;justify-content:space-between">
+<h2 style="flex:1 1 420px;margin:0;font-size:clamp(36px,5.4vw,76px);line-height:1;letter-spacing:-.04em;font-weight:800">Planning your next shutdown?</h2>
+<div style="flex:1 1 280px;display:flex;flex-direction:column;gap:14px">
+<a href="mailto:[YOUR EMAIL]" style="background:#F5B94A;color:#0B2E4D;font-weight:800;padding:18px 32px;border-radius:999px;text-align:center;min-height:44px;box-sizing:border-box">[YOUR EMAIL]</a>
+<a href="tel:[YOUR PHONE]" style="border:1px solid rgba(255,255,255,.5);color:#F4F8FC;font-weight:700;padding:18px 32px;border-radius:999px;text-align:center;min-height:44px;box-sizing:border-box">[YOUR PHONE]</a>
+</div>
+</section>
+
+<footer style="padding:80px 0 40px;font-size:15px;color:#C3D3E3"><div style="display:flex;flex-wrap:wrap;gap:40px"><div style="flex:2 1 280px"><div style="font-weight:800;letter-spacing:.1em;color:#F4F8FC;font-size:18px">SD ENTERPRISES</div><p style="line-height:1.7;max-width:340px">Turbine, TDBFP and valve overhauling, and manpower supply for power plants.</p></div><div style="flex:1 1 180px"><div class="mono" style="color:#F4F8FC;margin-bottom:16px">COMPANY</div><div style="display:flex;flex-direction:column;gap:10px"><a href="#about" style="color:#C3D3E3">About</a><a href="#principles" style="color:#C3D3E3">Principles</a><a href="#clients" style="color:#C3D3E3">Clients</a><a href="#certifications" style="color:#C3D3E3">Certifications</a><a href="#team" style="color:#C3D3E3">Leadership</a></div></div><div style="flex:1 1 180px"><div class="mono" style="color:#F4F8FC;margin-bottom:16px">SERVICES</div><div style="display:flex;flex-direction:column;gap:10px"><a href="#services" style="color:#C3D3E3">Turbine overhauling</a><a href="#services" style="color:#C3D3E3">TDBFP overhauling</a><a href="#services" style="color:#C3D3E3">Valve overhauling</a><a href="#services" style="color:#C3D3E3">Manpower supply</a></div></div><div style="flex:1 1 180px"><div class="mono" style="color:#F4F8FC;margin-bottom:16px">CONTACT</div><div style="display:flex;flex-direction:column;gap:10px"><span>[ADDRESS]</span><span>[EMAIL]</span><span>[PHONE]</span><span>[WORKING HOURS]</span></div></div></div><div class="mono" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;margin-top:56px;padding-top:24px;border-top:1px solid rgba(255,255,255,.2)"><span>© 2026 SD ENTERPRISES</span><span>[GST / ISO / REGISTRATION NO.]</span></div></footer>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+var D=document,W=window,root=D.documentElement,rm=W.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var pb=D.getElementById('pb');
+function sp(){var h=root.scrollHeight-W.innerHeight;pb.style.width=(h>0?W.scrollY/h*100:0)+'%'}
+W.addEventListener('scroll',sp,{passive:true});sp();
+if('IntersectionObserver' in W&&!rm){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.08});D.querySelectorAll('.rv').forEach(function(x){io.observe(x)});root.classList.add('js')}
+D.querySelectorAll('.glass').forEach(function(c){
+c.addEventListener('pointermove',function(e){var b=c.getBoundingClientRect(),x=(e.clientX-b.left)/b.width,y=(e.clientY-b.top)/b.height;c.style.setProperty('--mx',x*100+'%');c.style.setProperty('--my',y*100+'%');
+if(c.classList.contains('t3')&&e.pointerType==='mouse'&&!rm)c.style.transform='perspective(1000px) rotateX('+((.5-y)*14)+'deg) rotateY('+((x-.5)*16)+'deg) translateY(-10px)'});
+c.addEventListener('pointerleave',function(){c.style.transform=''})});
+try{
+if(!W.THREE)return;
+var T=THREE,cv=D.getElementById('gl'),R=new T.WebGLRenderer({canvas:cv,alpha:true,antialias:true});
+R.setPixelRatio(Math.min(W.devicePixelRatio||1,2));
+var S=new T.Scene(),C=new T.PerspectiveCamera(35,1,.1,100);C.position.z=12;
+S.add(new T.AmbientLight(0x8fb4de,.9));
+var k=new T.DirectionalLight(0xffffff,2.4);k.position.set(4,6,8);S.add(k);
+var rim=new T.DirectionalLight(0x4aa3ff,1.8);rim.position.set(-6,3,-5);S.add(rim);
+var pl=new T.PointLight(0xF5B94A,3,30);pl.position.set(-4,-2,5);S.add(pl);
+var metal=new T.MeshStandardMaterial({color:0xcfd9e4,metalness:.7,roughness:.33}),
+dark=new T.MeshStandardMaterial({color:0x3a5f86,metalness:.8,roughness:.4}),
+gold=new T.MeshStandardMaterial({color:0xF5B94A,metalness:.8,roughness:.28,emissive:0x3a2600});
+var G=new T.Group(),rotor=new T.Group(),stages=[],dias=[];S.add(G);G.add(rotor);
+var bright=new T.MeshStandardMaterial({color:0xeef3f8,metalness:.9,roughness:.18}),
+dm=new T.MeshStandardMaterial({color:0x2f6fa8,metalness:.6,roughness:.5,transparent:true,opacity:.78,side:T.DoubleSide});
+function cyl(r,l,x,m,p){var a=new T.Mesh(new T.CylinderGeometry(r,r,l,40),m);a.rotation.z=Math.PI/2;a.position.x=x;(p||rotor).add(a);return a}
+function tor(r,t,x,m,p){var a=new T.Mesh(new T.TorusGeometry(r,t,8,64),m);a.rotation.y=Math.PI/2;a.position.x=x;(p||rotor).add(a)}
+cyl(.42,6.9,0,metal);cyl(.34,.4,-3.65,dark);cyl(.34,.4,3.65,dark);cyl(.27,.7,-4.15,bright);cyl(.27,.7,4.15,bright);
+cyl(.3,.45,-4.6,metal);cyl(.82,.16,-4.85,metal);cyl(.62,.1,-3.3,metal);
+for(var k=0;k<8;k++){var b=cyl(.06,.34,-4.85,bright),ka=k/8*Math.PI*2;b.position.y=Math.cos(ka)*.62;b.position.z=Math.sin(ka)*.62}
+[-3.25,-3.1,3.1,3.25].forEach(function(x){tor(.46,.03,x,metal)});
+var rin=.5,rout=1.95,pts=[new T.Vector2(rin,-.09),new T.Vector2(rout,-.09),new T.Vector2(rout,.09),new T.Vector2(rin,.09),new T.Vector2(rin,-.09)],
+dg=new T.LatheGeometry(pts,48,Math.PI,Math.PI),o=new T.Object3D();
+for(var i=0;i<8;i++){
+var st=new T.Group(),m=i==5?gold:metal,r=.72+i*.07,len=.22+i*.04,n=44+i*4,x=-2.55+i*.73;
+st.userData.x=x;st.position.x=x;
+cyl(r,.1,0,m,st);cyl(.56,.26,0,m,st);
+var bl=new T.InstancedMesh(new T.BoxGeometry(.2,len,.03),m,n);
+for(var j=0;j<n;j++){var a=j/n*Math.PI*2,rr=r+len/2-.02;o.position.set(0,Math.cos(a)*rr,Math.sin(a)*rr);o.rotation.set(a,.55,0);o.updateMatrix();bl.setMatrixAt(j,o.matrix)}
+st.add(bl);var rg=new T.Mesh(new T.TorusGeometry(r+len,.02,8,72),m);rg.rotation.y=Math.PI/2;st.add(rg);
+rotor.add(st);stages.push(st);
+var dp=new T.Group(),xd=-2.55+(i-.5)*.73;dp.userData.x=xd;dp.position.x=xd;
+var pm=new T.Mesh(dg,dm);pm.rotation.z=Math.PI/2;dp.add(pm);
+var vn=new T.InstancedMesh(new T.BoxGeometry(.12,.3,.025),bright,30);
+for(var v=0;v<30;v++){var va=Math.PI/2+v/29*Math.PI,vr=r+.12;o.position.set(0,Math.cos(va)*vr,Math.sin(va)*vr);o.rotation.set(va,-.55,0);o.updateMatrix();vn.setMatrixAt(v,o.matrix)}
+dp.add(vn);G.add(dp);dias.push(dp)}
+var cs=new T.Mesh(new T.CylinderGeometry(2.05,2.05,7.6,40,1,true,Math.PI,Math.PI),new T.MeshStandardMaterial({color:0x1d5a8e,transparent:true,opacity:.12,side:T.DoubleSide}));
+cs.rotation.z=Math.PI/2;G.add(cs);
+var wf=new T.Mesh(cs.geometry,new T.MeshBasicMaterial({color:0x7fb4e6,wireframe:true,transparent:true,opacity:.2}));wf.rotation.z=Math.PI/2;G.add(wf);
+[-1,1].forEach(function(s){var f=new T.Mesh(new T.BoxGeometry(7.6,.05,.16),dark);f.position.z=s*2.05;G.add(f)});
+[-4.15,4.15].forEach(function(x){var hb=new T.Mesh(new T.CylinderGeometry(.55,.55,.9,24,1,false,Math.PI,Math.PI),dark);hb.rotation.z=Math.PI/2;hb.position.x=x;G.add(hb);var pd=new T.Mesh(new T.BoxGeometry(1,.5,1.2),dark);pd.position.set(x,-.8,0);G.add(pd)});
+var mx=0,my=0,px=-9999,py=-9999,yaw=-.55,pitch=.28,hov=false,u0=0,yaw0=0,t0=performance.now(),hs=D.querySelector('.scene');
+W.addEventListener('pointermove',function(e){px=e.clientX;py=e.clientY;mx=px/W.innerWidth-.5;my=py/W.innerHeight-.5},{passive:true});
+function rs(){R.setSize(W.innerWidth,W.innerHeight,false);C.aspect=W.innerWidth/W.innerHeight;C.updateProjectionMatrix()}
+W.addEventListener('resize',rs);rs();
+function ease(x){return x*x*(3-2*x)}
+function frame(now){
+var dt=Math.min((now-t0)/1000,.05);t0=now;
+var sy=W.scrollY,vh=W.innerHeight,e=ease(Math.min(Math.max(sy/(vh*1.1),0),1));
+var q=hs.getBoundingClientRect(),ppu=vh/(2*Math.tan(C.fov*Math.PI/360)*C.position.z),w=Math.max(q.width,W.innerWidth*.28);
+G.position.set((q.left+q.width/2-W.innerWidth/2)/ppu,-(Math.max(q.top+q.height/2,vh*.5)-vh/2)/ppu,0);
+G.scale.setScalar(w/ppu/10.6/(1+e*.35));
+var inside=!rm&&px>=q.left-20&&px<=q.right+20&&py>=q.top-20&&py<=q.bottom+20&&sy<vh*.8,u=(px-q.left)/q.width,v=(py-q.top)/q.height,yT,pT,TP=Math.PI*2;
+if(inside){if(!hov){hov=true;u0=u;yaw0=yaw}yT=yaw0+(u-u0)*TP;pT=.28+(v-.5)*.7}
+else{hov=false;var rest=-.55+mx*.4+sy*.0012;yT=rest+Math.round((yaw-rest)/TP)*TP;pT=.28+my*.25}
+yaw+=(yT-yaw)*.1;pitch+=(pT-pitch)*.1;
+G.rotation.y=yaw;G.rotation.x=pitch;
+rotor.rotation.x+=rm?0:dt*(.5+e*.8);
+for(var i=0;i<stages.length;i++){stages[i].position.x=stages[i].userData.x*(1+e*.6);dias[i].position.x=dias[i].userData.x*(1+e*.6)}
+cv.style.opacity=(1-Math.min(sy/vh,1)*.74).toFixed(2);
+R.render(S,C);requestAnimationFrame(frame)}
+requestAnimationFrame(frame);root.classList.add('gl');
+}catch(err){}
+})();
+</script>
+</body>
+</html>

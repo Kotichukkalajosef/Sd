@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Life On Site &amp; Gallery | SD Enterprises</title>
+  <meta name="description" content="Visual execution gallery of turbine rotor casing lifts, TDBFP cartridge renewals, in-situ valve seat lapping, and shutdown crews.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <div id="scroll-progress"></div>
+
+  <div class="inner-hero-zone">
+    <!-- Header -->
+    <header class="site-header">
+      <div class="nav-wrapper">
+        <a href="index.html" class="brand-logo" aria-label="SD Enterprises Home">
+          <img src="assets/icons/logo-removebg-preview-white.png" alt="SD Enterprises Logo" class="brand-logo-img">
+          <span>SD ENTERPRISES</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Main Navigation">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="services.html" class="nav-link">Services</a>
+          <a href="projects.html" class="nav-link">Projects</a>
+          <a href="gallery.html" class="nav-link active">Gallery</a>
+          <a href="about.html" class="nav-link">About</a>
+          <a href="contact.html" class="nav-link">Contact</a>
+        </nav>
+
+        <div class="nav-cta">
+          <a href="contact.html" class="btn btn-outline btn-sm">Plan Outage / RFP</a>
+          <button class="menu-toggle" aria-label="Toggle Mobile Navigation" aria-expanded="false">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" aria-label="Mobile Navigation Drawer">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="services.html" class="nav-link">Our Services</a>
+      <a href="projects.html" class="nav-link">Outage Projects &amp; Track Record</a>
+      <a href="gallery.html" class="nav-link active">Site Life &amp; Execution Gallery</a>
+      <a href="about.html" class="nav-link">About &amp; Certifications</a>
+      <a href="contact.html" class="nav-link">Request Proposal / RFQ</a>
+    </div>
+
+    <!-- Page Header in Inner Hero Zone -->
+    <div class="page-container" style="padding-top: 24px;">
+      <section class="reveal" style="margin-bottom: 24px;">
+        <h1 class="hero-title" style="font-size: clamp(34px, 4.4vw, 56px); margin-bottom: 16px;">Life On Site: Precision Engineering.</h1>
+        <p class="hero-desc" style="max-width: 820px; margin-bottom: 0;">
+          Explore photographs and schematics from our outage executions. Click any card to inspect full-screen in high resolution.
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <!-- Pure White Background Content Zone with Deep Blue Text -->
+  <main class="white-zone">
+    <div class="page-container">
+
+    <!-- Dynamic Category Filter Buttons -->
+    <div id="gallery-filters" class="filter-tabs in-view">
+      <!-- Populated dynamically by js/gallery.js -->
+    </div>
+
+    <!-- Dynamic High-Performance Gallery Grid -->
+    <div id="dynamic-gallery" class="gallery-grid in-view">
+      <!-- Populated dynamically by js/gallery.js -->
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Image Fullscreen View">
+      <div class="lightbox-content">
+        <button id="lightbox-close" class="lightbox-close" aria-label="Close Lightbox">&times;</button>
+        <div class="glass" style="overflow: hidden; border-radius: 16px;">
+          <img id="lightbox-img" src="" alt="Fullscreen Inspection" style="width: 100%; max-height: 70vh; object-fit: contain; background: #061524;">
+          <div style="padding: 24px;">
+            <h3 id="lightbox-title" style="font-size: 22px; font-weight: 800; color: #ffffff; margin-bottom: 6px;"></h3>
+            <p id="lightbox-caption" style="color: var(--text-muted); font-size: 15px; margin: 0; line-height: 1.6;"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <section class="glass cta-banner reveal" style="margin-top: 80px;">
+      <div class="cta-banner-text">
+        <h2 style="font-size: clamp(30px, 3.5vw, 48px); font-weight: 800; line-height: 1.15; margin-bottom: 16px;">
+          Want to see specific photo dossiers from our recent 660 MW or 500 MW overhauls?
+        </h2>
+        <p style="color: var(--text-muted); font-size: 16px; line-height: 1.6;">
+          Our technical marketing desk can provide comprehensive turnaround dossiers with before-and-after clearance photos for your management review.
+        </p>
+      </div>
+      <div>
+        <a href="contact.html" class="btn btn-primary" style="padding: 16px 32px;">Request Outage Dossier</a>
+      </div>
+    </section>
+    </div>
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="site-footer">
+    <div class="page-container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-logo" style="margin-bottom: 16px;">
+            <img src="assets/icons/logo-removebg-preview-white.png" alt="SD Enterprises Logo" class="brand-logo-img">
+            <span>SD ENTERPRISES</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 14px; line-height: 1.7; max-width: 320px;">
+            Specialist engineering contractor for STG outages, turbine &amp; TDBFP overhauling, critical valves, certified shutdown manpower, and power plant O&amp;M.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">SERVICES</div>
+          <ul class="footer-links">
+            <li><a href="services.html#stg">STG Outage Overhauling</a></li>
+            <li><a href="services.html#tdbfp">TDBFP &amp; BFPT Overhaul</a></li>
+            <li><a href="services.html#erection">Equipment &amp; TG Erection</a></li>
+            <li><a href="services.html#fabrication">Piping &amp; Steel Fabrication</a></li>
+            <li><a href="services.html#valves">Critical Valve Reconditioning</a></li>
+            <li><a href="services.html#manpower">Technical Manpower Supply</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">COMPANY</div>
+          <ul class="footer-links">
+            <li><a href="about.html">About SD Enterprises</a></li>
+            <li><a href="projects.html">Project Track Record</a></li>
+            <li><a href="gallery.html">Site Execution Gallery</a></li>
+            <li><a href="contact.html">Request Proposal / RFQ</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">CONTACT</div>
+          <div style="font-size: 14px; color: var(--text-hero-muted); line-height: 1.8;">
+            <div>Emergency 24/7 Outage Hotline:</div>
+            <a href="tel:+919876543210" style="color: var(--accent-blue-bright); font-weight: 700;">+91 98765 43210</a>
+            <div style="margin-top: 8px;">Engineering Desk:</div>
+            <a href="mailto:outages@sdenterprises.in" style="color: #ffffff;">outages@sdenterprises.in</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 SD ENTERPRISES. ALL RIGHTS RESERVED.</div>
+        <div>ISO 9001:2015 &middot; ISO 45001:2018 &middot; SPECIALIZED MECHANICAL OUTAGE CONTRACTOR</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/site-data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/gallery.js"></script>
+</body>
+</html>

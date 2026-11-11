@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#081A2D"/><stop offset="100%" stop-color="#113F67"/></linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  
+  <!-- Turbine Shaft (Left) -->
+  <rect x="80" y="220" width="260" height="80" rx="8" fill="#4B6C8C"/>
+  <rect x="300" y="190" width="40" height="140" rx="6" fill="#F5B94A"/> <!-- Coupling Hub 1 -->
+  
+  <!-- Generator / Driven Shaft (Right) -->
+  <rect x="460" y="190" width="40" height="140" rx="6" fill="#F5B94A"/> <!-- Coupling Hub 2 -->
+  <rect x="460" y="220" width="260" height="80" rx="8" fill="#4B6C8C"/>
+  
+  <!-- Laser Emitter on Hub 1 -->
+  <rect x="290" y="130" width="50" height="50" rx="6" fill="#0B2038" stroke="#E2EDF8" stroke-width="2"/>
+  <circle cx="315" cy="155" r="8" fill="#FF4D4D"/>
+  
+  <!-- Laser Receiver on Hub 2 -->
+  <rect x="460" y="130" width="50" height="50" rx="6" fill="#0B2038" stroke="#E2EDF8" stroke-width="2"/>
+  <rect x="475" y="145" width="20" height="20" fill="#254F75"/>
+  <circle cx="485" cy="155" r="4" fill="#52C41A"/>
+  
+  <!-- Precision Laser Beam -->
+  <line x1="323" y1="155" x2="475" y2="155" stroke="#FF4D4D" stroke-width="3" stroke-dasharray="4 2"/>
+  <line x1="323" y1="155" x2="475" y2="155" stroke="#FFA39E" stroke-width="1"/>
+  
+  <!-- Coupling Gap Measure -->
+  <line x1="340" y1="260" x2="460" y2="260" stroke="#F5B94A" stroke-width="2" stroke-dasharray="4 2"/>
+  <text x="400" y="285" font-family="'JetBrains Mono', monospace" font-size="13" fill="#F5B94A" text-anchor="middle">GAP: 4.50 ±0.02 mm</text>
+  
+  <!-- Sub-micron reading panel -->
+  <rect x="280" y="370" width="240" height="56" rx="10" fill="rgba(11,32,56,0.9)" stroke="#52C41A" stroke-width="1.5"/>
+  <text x="400" y="394" font-family="'JetBrains Mono', monospace" font-size="11" fill="#52C41A" text-anchor="middle">OPTICAL AXIAL OFFSET</text>
+  <text x="400" y="414" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">&lt; 0.015 mm (TOLERANCE OK)</text>
+
+  <!-- Badge -->
+  <rect x="40" y="40" width="260" height="52" rx="10" fill="rgba(11,32,56,0.85)" stroke="rgba(245,185,74,0.4)" stroke-width="1"/>
+  <text x="56" y="62" font-family="'JetBrains Mono', monospace" font-size="11" fill="#F5B94A" letter-spacing="1.5">LASER SHAFT ALIGNMENT</text>
+  <text x="56" y="80" font-family="'Manrope', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">Coupling Blue Match &amp; Float</text>
+</svg>

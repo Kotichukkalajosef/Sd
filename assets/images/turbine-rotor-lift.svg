@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#081A2D"/>
+      <stop offset="50%" stop-color="#113F67"/>
+      <stop offset="100%" stop-color="#0B2038"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#F5B94A"/>
+      <stop offset="100%" stop-color="#FFD175"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E2EDF8"/>
+      <stop offset="50%" stop-color="#8DA5BE"/>
+      <stop offset="100%" stop-color="#4C6885"/>
+    </linearGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  <rect width="800" height="500" fill="url(#grid)"/>
+  
+  <!-- Crane Rigging Cables -->
+  <line x1="400" y1="20" x2="250" y2="240" stroke="#F5B94A" stroke-width="4" stroke-dasharray="8 4"/>
+  <line x1="400" y1="20" x2="550" y2="240" stroke="#F5B94A" stroke-width="4" stroke-dasharray="8 4"/>
+  <circle cx="400" cy="20" r="16" fill="none" stroke="#F5B94A" stroke-width="5"/>
+  <path d="M 388 35 L 412 35 L 400 65 Z" fill="#F5B94A"/>
+  
+  <!-- Spreader Beam -->
+  <rect x="220" y="225" width="360" height="24" rx="4" fill="url(#gold)"/>
+  <circle cx="250" cy="237" r="6" fill="#0B2038"/>
+  <circle cx="550" cy="237" r="6" fill="#0B2038"/>
+  
+  <!-- Rigging Slings to Rotor -->
+  <line x1="250" y1="249" x2="270" y2="330" stroke="#E2EDF8" stroke-width="3"/>
+  <line x1="550" y1="249" x2="530" y2="330" stroke="#E2EDF8" stroke-width="3"/>
+  
+  <!-- Turbine Rotor Shaft -->
+  <rect x="120" y="325" width="560" height="30" rx="6" fill="url(#metal)"/>
+  
+  <!-- Rotor Bladed Discs / Stages -->
+  <g fill="url(#metal)" stroke="#2B4D6F" stroke-width="1.5">
+    <!-- HP Stages -->
+    <rect x="220" y="270" width="16" height="140" rx="3"/>
+    <rect x="250" y="260" width="18" height="160" rx="3"/>
+    <rect x="282" y="250" width="20" height="180" rx="3"/>
+    <rect x="316" y="240" width="22" height="200" rx="3"/>
+    <!-- IP / LP Larger Stages -->
+    <rect x="354" y="220" width="26" height="240" rx="4"/>
+    <rect x="396" y="200" width="28" height="280" rx="4" fill="#F5B94A"/>
+    <rect x="440" y="210" width="28" height="260" rx="4"/>
+    <rect x="484" y="230" width="26" height="220" rx="4"/>
+    <rect x="526" y="250" width="22" height="180" rx="3"/>
+    <rect x="562" y="270" width="18" height="140" rx="3"/>
+  </g>
+  
+  <!-- Turbine Casing Silhouette (Below) -->
+  <path d="M 80 430 L 140 380 L 660 380 L 720 430 Z" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.18)" stroke-width="2"/>
+  <line x1="60" y1="440" x2="740" y2="440" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+  
+  <!-- Technical Labels Overlay -->
+  <rect x="40" y="40" width="230" height="52" rx="10" fill="rgba(11,32,56,0.85)" stroke="rgba(245,185,74,0.4)" stroke-width="1"/>
+  <text x="56" y="62" font-family="'JetBrains Mono', monospace" font-size="11" fill="#F5B94A" letter-spacing="1.5">TURBINE CRANE LIFT</text>
+  <text x="56" y="80" font-family="'Manrope', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">HP/IP Rotor Extraction</text>
+</svg>

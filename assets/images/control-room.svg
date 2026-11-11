@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#061524"/><stop offset="100%" stop-color="#0E2F4C"/></linearGradient>
+    <linearGradient id="screenGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#143D63"/><stop offset="100%" stop-color="#092038"/></linearGradient>
+  </defs>
+  <rect width="800" height="500" fill="url(#bg)"/>
+  
+  <!-- SCADA / DCS Multi-Screen Console Array -->
+  <!-- Screen 1 (Left - Turbine MIMIC) -->
+  <rect x="80" y="140" width="190" height="130" rx="6" fill="url(#screenGrad)" stroke="#4A759B" stroke-width="2"/>
+  <path d="M 100 210 L 140 190 L 200 190 L 240 210" fill="none" stroke="#F5B94A" stroke-width="2"/>
+  <text x="100" y="165" font-family="'JetBrains Mono', monospace" font-size="9" fill="#52C41A">STG LOAD: 658 MW</text>
+  <text x="100" y="180" font-family="'JetBrains Mono', monospace" font-size="9" fill="#E2EDF8">SPEED: 3000 RPM</text>
+  
+  <!-- Screen 2 (Center - Hydraulic & Lube Oil) -->
+  <rect x="305" y="130" width="200" height="145" rx="6" fill="url(#screenGrad)" stroke="#F5B94A" stroke-width="2.5"/>
+  <rect x="325" y="160" width="45" height="70" fill="none" stroke="#52C41A" stroke-width="2"/>
+  <rect x="385" y="160" width="45" height="70" fill="none" stroke="#52C41A" stroke-width="2"/>
+  <rect x="445" y="160" width="45" height="70" fill="none" stroke="#52C41A" stroke-width="2"/>
+  <text x="325" y="150" font-family="'JetBrains Mono', monospace" font-size="10" fill="#F5B94A">LUBE OIL PRESS: 2.8 BAR</text>
+  
+  <!-- Screen 3 (Right - Bearing Temps) -->
+  <rect x="535" y="140" width="190" height="130" rx="6" fill="url(#screenGrad)" stroke="#4A759B" stroke-width="2"/>
+  <circle cx="585" cy="205" r="24" fill="none" stroke="#52C41A" stroke-width="4"/>
+  <text x="585" y="210" font-family="'JetBrains Mono', monospace" font-size="10" fill="#FFFFFF" text-anchor="middle">62°C</text>
+  <circle cx="675" cy="205" r="24" fill="none" stroke="#52C41A" stroke-width="4"/>
+  <text x="675" y="210" font-family="'JetBrains Mono', monospace" font-size="10" fill="#FFFFFF" text-anchor="middle">59°C</text>
+  <text x="550" y="165" font-family="'JetBrains Mono', monospace" font-size="9" fill="#E2EDF8">BRG 1 &amp; 2 DRAIN TEMPS</text>
+  
+  <!-- Console Desk Foreground -->
+  <polygon points="40,360 760,360 800,500 0,500" fill="#0A1C2C" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+  <rect x="320" y="380" width="160" height="40" rx="6" fill="#14344E"/>
+  
+  <!-- Status Indicator Lamps -->
+  <circle cx="360" cy="400" r="6" fill="#52C41A"/>
+  <circle cx="400" cy="400" r="6" fill="#52C41A"/>
+  <circle cx="440" cy="400" r="6" fill="#F5B94A"/>
+
+  <!-- Badge -->
+  <rect x="40" y="40" width="270" height="52" rx="10" fill="rgba(11,32,56,0.85)" stroke="rgba(245,185,74,0.4)" stroke-width="1"/>
+  <text x="56" y="62" font-family="'JetBrains Mono', monospace" font-size="11" fill="#F5B94A" letter-spacing="1.5">24/7 PLANT OPERATION (O&amp;M)</text>
+  <text x="56" y="80" font-family="'Manrope', sans-serif" font-size="13" font-weight="700" fill="#FFFFFF">Condition Monitoring &amp; AMC</text>
+</svg>
