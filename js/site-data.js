@@ -12,13 +12,15 @@
 var SITE_DATA = {
   company: {
     name: "SD ENTERPRISES",
-    tagline: "STG Outages, TDBFP & BFPT, Erection, Fabrication, Valves & Technical Manpower Supply",
-    shortBio: "Specialist engineering contractor delivering Steam Turbine Generator (STG) capital outages, TDBFP & BFPT overhauls, heavy equipment erection, structural & piping fabrication, critical valve reconditioning, and certified technical manpower supply across power utilities and heavy industries.",
-    phone: "+91 98765 43210", // Placeholder - easily updated
-    emergencyPhone: "+91 98765 43211",
-    email: "outages@sdenterprises.in",
-    supportEmail: "info@sdenterprises.in",
-    headOffice: "Industrial Hub, Power Sector Corridor, India",
+    tagline: "STG Outage, O&M (Operation & Maintenance), Technical Man Power Supply, Fabrication & Erection",
+    shortBio: "Specialist engineering contractor delivering Steam Turbine Generator (STG) outages, Operation and Maintenance (O&M), certified Technical Manpower Supply, heavy structural and high-pressure piping Fabrication, and mechanical Erection across power utilities and heavy industries.",
+    phone: "+91 80886 40058", // Placeholder - easily updated
+    emergencyPhone: "+91 80886 40058",
+    email: "info@sdenterprises.co",
+    supportEmail: "info@sdenterprises.co",
+    headOffice: "Plot No. 57, Sai Park, Vijayapura, Karnataka - 586109",
+    gstin: "29ABGFM5037Q1ZK",
+    certificationsText: "ISO 9001 | ISO 14001 | ISO 45001",
     workingHours: "24/7 Mobilization for Outages & Projects",
     stats: [
       { value: "150+", label: "STG Outages Delivered", sub: "Up to 800 MW units" },
@@ -31,127 +33,140 @@ var SITE_DATA = {
   categories: [
     { id: "all", label: "All Disciplines" },
     { id: "stg", label: "STG Outage" },
-    { id: "tdbfp", label: "TDBFP & BFPT" },
-    { id: "erection", label: "Erection" },
+    { id: "om", label: "O&M" },
+    { id: "manpower", label: "Technical Manpower" },
     { id: "fabrication", label: "Fabrication" },
-    { id: "valves", label: "Valves" },
-    { id: "manpower", label: "Manpower Supply" }
+    { id: "erection", label: "Erection" }
   ],
 
+  /**
+   * CORE SERVICES CONFIGURATION
+   * To add a new service in the future, simply add an object below with:
+   * { id, category, anchor, serviceNumber, shortCode, title, fullTitle, heroTag, shortDesc, fullDesc, highlights, specTags, equipmentHandled, icon }
+   * The website's hero rotator, hero chips, and services showcase will automatically include it!
+   */
   services: [
     {
       id: "stg-outage",
       category: "stg",
       anchor: "stg",
-      title: "STG Outage & Capital Overhauling",
-      shortDesc: "Specialized capital outages and emergency breakdown overhauls for Steam Turbine Generators (10 MW to 800 MW supercritical sets).",
-      fullDesc: "We provide comprehensive planned outage and emergency breakdown overhauling for Steam Turbine Generators. Our specialized field scope encompasses top casing lift, rotor extraction, in-situ clearance measurement (bump checks, labyrinth seals, oil baffles), blading dye-penetrant / NDT inspection, diaphragm re-alignment, journal and thrust bearing scraping/re-metalling, dynamic balancing, and laser shaft alignment to OEM tolerances.",
+      serviceNumber: "01",
+      shortCode: "STG OUTAGE",
+      title: "STG Outage",
+      fullTitle: "STG Outage & Capital Overhauls",
+      heroTag: "660 / 800 MW Supercritical",
+      shortDesc: "Comprehensive capital outages, cylinder opening, rotor extraction, blading NDT, and precision alignment up to 800 MW supercritical sets.",
+      fullDesc: "Specialized planned outages and forced breakdown overhauls for Steam Turbine Generators (up to 800 MW supercritical units, with proven specialization on NTPC Toshiba turbines). Scope encompasses HP/IP/LP casing lift, rotor inspection, labyrinth seal renewal, diaphragm alignment, bearing refurbishment, and sub-micron laser alignment.",
       highlights: [
-        "HP, IP & LP cylinder opening, dismantling & box-up",
-        "Rotor runout, journal inspection & dynamic balancing",
+        "HP, IP & LP cylinder opening, dismantling, overhaul & box-up",
+        "Rotor extraction, journal inspection, runout check & dynamic balancing",
         "Diaphragm alignment, nozzle box & labyrinth seal replacement",
-        "Pedestal & casing leveling, oil wedge & clearance adjustment",
+        "Journal and thrust bearing scraping, re-metalling & oil clearance verification",
         "Coupling runout check, blue matching & laser alignment",
-        "Turning gear overhauling & lube/jacking oil circuit flushing"
+        "Turning gear overhauling & lube/jacking oil system flushing"
       ],
-      equipmentHandled: ["Toshiba (660 MW & 800 MW Supercritical)", "BHEL (up to 800 MW)", "Siemens / KWU", "GE / Alstom", "Doosan", "Triveni / Shin Nippon", "Elliott / Dresser-Rand"],
+      specTags: ["10–800 MW Sets", "HP/IP/LP Opening", "Toshiba & Supercritical", "Laser Alignment"],
+      equipmentHandled: ["Toshiba (660 MW & 800 MW Supercritical)", "BHEL (up to 800 MW)", "Siemens / KWU", "GE / Alstom", "Doosan", "Triveni / Shin Nippon"],
       icon: "rotor"
     },
     {
-      id: "tdbfp-bfpt",
-      category: "tdbfp",
-      anchor: "tdbfp",
-      title: "TDBFP & BFPT Overhauling",
-      shortDesc: "Precision overhauls of Turbine Driven Boiler Feed Pumps (TDBFP), BFPT drive steam turbines, barrel assemblies, and cartridge renewals.",
-      fullDesc: "Boiler feed pumps operate under extreme hydraulic pressures and thermal gradients. Our precision overhauling restores pump efficiency, minimizes internal recirculation, and ensures reliable feedwater supply. We overhaul both the drive steam turbine (BFPT) and multi-stage barrel or split-casing pump assemblies.",
+      id: "om-maintenance",
+      category: "om",
+      anchor: "om",
+      serviceNumber: "02",
+      shortCode: "O&M",
+      title: "O&M (Operation and Maintenance)",
+      fullTitle: "Plant Operation & Comprehensive Maintenance (O&M)",
+      heroTag: "24/7 Operations & Reliability",
+      shortDesc: "Complete round-the-clock plant operation, routine & preventive maintenance, BOP upkeep, vibration monitoring, and outage readiness.",
+      fullDesc: "End-to-end Operation and Maintenance (O&M) solutions for power generation utilities, captive power plants (CPP), and industrial co-generation units. Our skilled engineers and technicians execute shift operations, routine condition monitoring, lubrication management, balance of plant (BOP) servicing, and planned preventive upkeep to ensure peak heat rates and maximum plant availability.",
       highlights: [
-        "Drive steam turbine (BFPT) dismantling, blading, governor & trip valve overhaul",
-        "Multi-stage cartridge / inner bundle pullout & replacement",
-        "Impeller, diffuser & wear ring clearance restoration (0.30 - 0.45 mm)",
-        "Balancing drum & balance disc refacing & blue contact matching",
-        "Mechanical seal & gland packing renewal",
-        "Full rotor dynamic balancing & hydrodynamic bearing refurbishment"
+        "24/7 continuous plant operations, shift monitoring & log-sheet parameter control",
+        "Comprehensive preventive, predictive & scheduled maintenance management",
+        "Balance of Plant (BOP) systems upkeep: cooling towers, pumps, compressors & fans",
+        "Online vibration monitoring, lube oil health analysis & heat rate optimization",
+        "Rapid emergency breakdown troubleshooting & defect rectification",
+        "Statutory compliance, safety permit-to-work (PTW) execution & log audit"
       ],
-      equipmentHandled: ["BHEL / Weir", "KSB Multitec / HGC", "Sulzer (MD300 / CPT)", "Flowserve", "Ebara"],
-      icon: "pump"
+      specTags: ["24/7 Plant Operations", "Preventive Maintenance", "BOP & Auxiliaries", "Vibration Monitoring"],
+      equipmentHandled: ["Thermal Power Plants", "Captive Power Plants (CPP)", "Co-generation Systems", "Balance of Plant (BOP)"],
+      icon: "om"
     },
     {
-      id: "erection",
-      category: "erection",
-      anchor: "erection",
-      title: "Plant Equipment & TG Island Erection",
-      shortDesc: "Heavy equipment erection, steam turbine generator island installation, condenser rigging, auxiliary equipment positioning, and pre-commissioning.",
-      fullDesc: "From greenfield power projects to plant expansions, SD Enterprises executes precision equipment erection for turbo-generator sets and mechanical balance of plant. We manage heavy rigging, synchronized crane lifts, foundation sole plate preparation, equipment leveling, laser shaft alignment, and pre-commissioning trial runs.",
+      id: "manpower-supply",
+      category: "manpower",
+      anchor: "manpower",
+      serviceNumber: "03",
+      shortCode: "MANPOWER",
+      title: "Technical Man Power Supply",
+      fullTitle: "Specialized Technical Manpower Supply",
+      heroTag: "Certified Outage Technicians",
+      shortDesc: "Rapid mobilization of certified turbine bladers, millwright fitters, IBR high-pressure welders, riggers, and safety supervisors.",
+      fullDesc: "Supply of trade-tested, disciplined, and safety-certified technical manpower for planned turnarounds, emergency shutdowns, and long-term maintenance contracts. Every specialist is screened for turbomachinery expertise and strict adherence to zero-incident safety protocols.",
       highlights: [
-        "Turbine & Generator heavy rigging, stator placement & synchronized crane lifting",
-        "Sole plate positioning, chemical anchoring & precision leveling to ±0.05 mm",
-        "Surface condenser erection, expansion bellows fitting & neck welding",
-        "Feedwater heaters, deaerators, BFP skids, and auxiliary equipment installation",
-        "Sub-micron laser alignment across all turbine-generator and pump couplings",
-        "Barring gear rolling, lubrication system commissioning & solo run supervision"
+        "Certified Millwright Fitters & Turbine Specialist Mechanics",
+        "Precision Turbine Blading Technicians & Alignment Specialists",
+        "High-Pressure IBR Qualified Pipe Welders (GTAW / SMAW / FCAW)",
+        "Heavy Rigging Specialists & Synchronized Crane Signalers",
+        "NDT Level-II Technicians (DPT, MPT, UT & Boroscopy)",
+        "Outage Safety Officers, Shift Supervisors & QA Inspectors"
       ],
-      equipmentHandled: ["STG Turbo-Generators", "Surface Condensers", "Deaerators & LP/HP Heaters", "Centrifugal Pumps", "Auxiliary Skids"],
-      icon: "erection"
+      specTags: ["Millwright Fitters", "IBR Pipe Welders", "Turbine Bladers", "24–48h Mobilization"],
+      equipmentHandled: ["Short turnaround outages (7-15 days)", "Capital overhauls (25-45 days)", "Annual Maintenance Contracts (AMC)"],
+      icon: "manpower"
     },
     {
       id: "fabrication",
       category: "fabrication",
       anchor: "fabrication",
-      title: "Heavy Structural & High-Pressure Piping Fabrication",
-      shortDesc: "Shop and site fabrication of heavy structural steel, high-pressure IBR steam piping spools, ducting, tanks, and custom industrial skids.",
-      fullDesc: "We provide comprehensive heavy fabrication capabilities adhering to Indian Boiler Regulations (IBR) and ASME standards. Our certified fabrication teams deliver precision high-pressure steam piping spools (P11, P22, P91 alloy steels), heavy structural platforms, galleries, pipe racks, flue gas ducting, and industrial storage tanks.",
+      serviceNumber: "04",
+      shortCode: "FABRICATION",
+      title: "Fabrication",
+      fullTitle: "Structural & High-Pressure Piping Fabrication",
+      heroTag: "IBR Certified Spools & Structures",
+      shortDesc: "Shop and site fabrication of heavy structural steel, high-pressure IBR alloy steam piping, ducting, tanks, and custom industrial skids.",
+      fullDesc: "High-precision structural and piping fabrication adhering strictly to Indian Boiler Regulations (IBR) and ASME standards. We execute high-pressure alloy steel piping spools (P11, P22, P91), heavy steel platforms, turbine access galleries, pipe racks, flue gas ducting, and custom equipment skids with 100% QA/QC testing.",
       highlights: [
-        "High-pressure IBR steam piping spools fabrication with pre/post-weld heat treatment (PWHT)",
-        "Heavy structural steel fabrication: gantries, turbine access galleries & pipe racks",
-        "Flue gas & air ducting fabrication, expansion joints & damper installations",
+        "High-pressure IBR alloy piping spools (P11, P22, P91) with controlled PWHT",
+        "Heavy structural steel fabrication: turbine galleries, pipe racks & gantries",
+        "Flue gas & air ducting fabrication, expansion joints & damper assemblies",
         "Industrial atmospheric & pressurized storage tanks fabrication",
-        "ASME Section IX & IBR certified welders for GTAW, SMAW, and FCAW processes",
-        "100% QA/QC inspection: Radiographic (RT), Ultrasonic (UT), Magnetic Particle (MPT)"
+        "ASME Section IX & IBR certified welders for GTAW, SMAW, and FCAW",
+        "100% QA/QC inspection: Radiographic (RT), Ultrasonic (UT), and MPT"
       ],
+      specTags: ["IBR Alloy P11/P22/P91", "Heavy Structural Steel", "100% NDT Tested", "Steam Spools"],
       equipmentHandled: ["P91 / P22 / P11 Alloy Piping", "Carbon & Stainless Steel Spools", "Heavy Steel Structures", "Storage Tanks & Silos"],
       icon: "fabrication"
     },
     {
-      id: "valves",
-      category: "valves",
-      anchor: "valves",
-      title: "Critical High-Pressure Valve Reconditioning",
-      shortDesc: "Specialized overhaul, in-situ optical diamond lapping, spindle straightening, and pressure testing of MSV, ESV, CV, RSV, and safety valves.",
-      fullDesc: "Steam isolation and control valves operate under supercritical steam temperatures and pressures. SD Enterprises delivers precision reconditioning for Main Steam Stop Valves (MSV), Control Valves (CV), Reheat Stop Valves (RSV), Intercept Valves (IV), and HP/LP bypass stations.",
+      id: "erection",
+      category: "erection",
+      anchor: "erection",
+      serviceNumber: "05",
+      shortCode: "ERECTION",
+      title: "Erection",
+      fullTitle: "Plant Equipment & TG Island Erection",
+      heroTag: "Heavy Rigging & Laser Alignment",
+      shortDesc: "Heavy equipment erection, steam turbine-generator installation, surface condenser assembly, auxiliary skids, and pre-commissioning.",
+      fullDesc: "Complete mechanical erection services for turbo-generator sets, heavy balance of plant machinery, and plant expansions. We deliver synchronized heavy crane lifting, foundation sole plate preparation, equipment leveling to ±0.05 mm, laser alignment, and solo run supervision.",
       highlights: [
-        "In-situ seat machining & optical diamond lapping",
-        "Blue matching of valve plug to seat achieving >95% contact area",
-        "Valve spindle runout checking, NDT inspection & stelliting repair",
-        "Actuator overhaul: Hydraulic servo cylinders, racks & link mechanisms",
-        "Live-loaded gland packing replacement & torque tightening",
-        "Hydrostatic & pneumatic nitrogen pressure decay testing"
+        "Turbine & Generator heavy rigging, stator placement & tandem crane lifting",
+        "Sole plate positioning, chemical anchoring & precision leveling to ±0.05 mm",
+        "Surface condenser erection, neck welding & expansion bellows fitting",
+        "Auxiliary equipment: BFP skids, deaerators, LP/HP heaters & lube skids",
+        "Sub-micron laser alignment across all turbine-generator-pump couplings",
+        "Barring gear rolling, lube oil flushing & solo run commissioning"
       ],
-      equipmentHandled: ["Fisher / Emerson", "CCI / IMI", "Hopkinsons", "BHEL", "Koso / Samson", "Copes-Vulcan"],
-      icon: "valve"
-    },
-    {
-      id: "manpower",
-      category: "manpower",
-      anchor: "manpower",
-      title: "Specialized Technical Manpower Supply",
-      shortDesc: "Rapid mobilization of certified millwright fitters, turbine outage engineers, NDT Level-II technicians, IBR welders, and safety officers.",
-      fullDesc: "Plant shutdowns demand disciplined, battle-tested mechanics who understand turbine safety and critical tolerances. We supply trade-tested, safety-briefed technical manpower mobilized within 24 to 48 hours for short-duration turnarounds, capital overhauls, and annual maintenance.",
-      highlights: [
-        "Certified Millwright Fitters & Turbine Erector Specialists",
-        "Dynamic Balancing & Vibration Analysis Technicians",
-        "NDT Level-II Technicians (DPT, MPT, UT, Boroscopy)",
-        "High-Pressure Certified Pipe Welders (IBR qualified)",
-        "Experienced Turbine Outage Supervisors & Safety Stewards",
-        "Pre-mobilized shutdown squads equipped with calibrated precision toolkits"
-      ],
-      equipmentHandled: ["Short turnaround outages (7-15 days)", "Capital overhauls (25-45 days)", "Annual Maintenance Contracts (AMC)"],
-      icon: "manpower"
+      specTags: ["TG Heavy Rigging", "Sole Plate Leveling", "Condenser Assembly", "Barring Trials"],
+      equipmentHandled: ["STG Turbo-Generators", "Surface Condensers", "Deaerators & LP/HP Heaters", "Centrifugal Pumps", "Auxiliary Skids"],
+      icon: "erection"
     }
   ],
 
   projects: [
     {
       id: "p1",
+      featuredHome: true, // Set to true to show on Homepage Projects section
       title: "800 MW Supercritical STG Outage (Toshiba Turbine)",
       category: "stg",
       capacity: "800 MW Supercritical",
@@ -160,10 +175,11 @@ var SITE_DATA = {
       turnaround: "28 Days",
       year: "2025",
       summary: "Major mechanical capital outage of Toshiba 800 MW supercritical steam turbine. HP, IP, and double-flow LP cylinder dismantling, rotor extraction, NDT, labyrinth seal renewal, diaphragm alignment, and laser shaft re-alignment.",
-      achievements: "Completed ahead of critical-path schedule; post-overhaul vibration < 1.1 mm/s RMS."
+      achievements: "Vibration < 1.1 mm/s RMS upon synchronization · 100% OEM clearance adherence"
     },
     {
       id: "p2",
+      featuredHome: true, // Set to true to show on Homepage Projects section
       title: "800 MW Supercritical STG Overhaul (Toshiba Turbine)",
       category: "stg",
       capacity: "800 MW Supercritical",
@@ -172,10 +188,11 @@ var SITE_DATA = {
       turnaround: "26 Days",
       year: "2024 - 2025",
       summary: "Complete mechanical overhaul of Toshiba 800 MW supercritical turbine-generator unit. HP/IP cylinder opening, journal bearing scraping, rotor runout checks, coupling blue matching, and casing box-up.",
-      achievements: "Zero safety incidents across all shifts; restored OEM clearances with flawless recommissioning."
+      achievements: "Zero safety incidents across all shifts · Flawless steam rolling on schedule"
     },
     {
       id: "p3",
+      featuredHome: true, // Set to true to show on Homepage Projects section
       title: "660 MW Supercritical STG Capital Outage (Toshiba Turbine)",
       category: "stg",
       capacity: "660 MW Supercritical",
@@ -184,10 +201,11 @@ var SITE_DATA = {
       turnaround: "25 Days",
       year: "2024",
       summary: "Planned capital outage of Toshiba 660 MW supercritical set. Cylinder casing lift, rotor inspection, blading dye-penetrant examination, optical diaphragm alignment, and valve servo actuator overhauling.",
-      achievements: "Executed 3 days ahead of outage schedule with exceptional cold and hot alignment concentricity."
+      achievements: "Sub-micron alignment concentricity · 3 days ahead of outage schedule"
     },
     {
       id: "p4",
+      featuredHome: false,
       title: "Supercritical Unit TDBFP Overhaul & Cartridge Renewal",
       category: "tdbfp",
       capacity: "660 / 800 MW Class",
@@ -200,6 +218,7 @@ var SITE_DATA = {
     },
     {
       id: "p5",
+      featuredHome: false,
       title: "Critical High-Pressure Valve Overhaul (MSV/CV & Reheat)",
       category: "valves",
       capacity: "660 MW Class",
@@ -212,6 +231,7 @@ var SITE_DATA = {
     },
     {
       id: "p6",
+      featuredHome: false,
       title: "Specialized Shutdown Manpower & Mechanical Crew Deputation",
       category: "manpower",
       capacity: "Utility Fleet",
@@ -224,62 +244,157 @@ var SITE_DATA = {
     }
   ],
 
+  /**
+   * Dedicated Gallery Categories (Including O&M and Our Store Equipments & Machineries)
+   * This is dedicated exclusively for the Gallery filter tabs.
+   */
+  galleryCategories: [
+    { id: "all", label: "All Photos" },
+    { id: "stg", label: "STG Outages" },
+    { id: "om", label: "O&M Operations" },
+    { id: "manpower", label: "Technical Manpower" },
+    { id: "fabrication", label: "Fabrication" },
+    { id: "erection", label: "Erection" },
+    { id: "store", label: "Our Store & Machinery" }
+  ],
+
   gallery: [
     {
       id: "g1",
+      featuredHome: true, // Shows in Homepage Gallery
       title: "Turbine Rotor Casing Lift",
       category: "stg",
-      caption: "Precision crane sling setup for HP/IP turbine inner casing lift during a 660 MW capital overhaul.",
+      categoryLabel: "TURBINE",
+      caption: "Precision crane sling setup for HP/IP turbine inner casing lift during a 660 MW supercritical capital overhaul.",
       image: "assets/images/turbine-rotor-lift.svg"
     },
     {
       id: "g2",
+      featuredHome: true, // Shows in Homepage Gallery
       title: "TDBFP Cartridge Extraction",
-      category: "tdbfp",
+      category: "stg",
+      categoryLabel: "TDBFP",
       caption: "Specialized extraction rig removing high-pressure boiler feed pump inner cartridge for clearance renewal.",
       image: "assets/images/tdbfp-cartridge.svg"
     },
     {
+      id: "g5",
+      featuredHome: true, // Shows in Homepage Gallery
+      title: "In-Situ Valve Seat Lapping",
+      category: "stg",
+      categoryLabel: "VALVES",
+      caption: "Optical diamond lapping restoring >95% blue contact on MSV stellite seat right on the machine floor.",
+      image: "assets/images/valve-lapping.svg"
+    },
+    {
+      id: "g7",
+      featuredHome: true, // Shows in Homepage Gallery
+      title: "Sub-Micron Laser Alignment",
+      category: "stg",
+      categoryLabel: "ALIGNMENT",
+      caption: "Sub-micron laser alignment between steam turbine coupling and generator shaft with thermal growth offset.",
+      image: "assets/images/laser-alignment.svg"
+    },
+    {
+      id: "g6",
+      featuredHome: true, // Shows in Homepage Gallery
+      title: "Turbine Diaphragm Inspection",
+      category: "stg",
+      categoryLabel: "DIAPHRAGMS",
+      caption: "Optical alignment and axial/radial labyrinth seal clearance verification of LP diaphragm stages.",
+      image: "assets/images/diaphragm-inspection.svg"
+    },
+    {
+      id: "g8",
+      featuredHome: true, // Shows in Homepage Gallery
+      title: "Pre-Shift Toolbox Safety & Crew",
+      category: "manpower",
+      categoryLabel: "MANPOWER",
+      caption: "Daily safety briefing, permit-to-work review, and PPE calibration on the turbine operating deck.",
+      image: "assets/images/safety-crew.svg"
+    },
+    {
       id: "g3",
+      featuredHome: false,
       title: "Turbine Island Equipment Erection",
       category: "erection",
+      categoryLabel: "ERECTION",
       caption: "Heavy rigging and sole plate alignment of turbo-generator set during plant expansion.",
       image: "assets/images/control-room.svg"
     },
     {
       id: "g4",
+      featuredHome: false,
       title: "High-Pressure Piping Fabrication",
       category: "fabrication",
+      categoryLabel: "FABRICATION",
       caption: "IBR certified welding and fitting of alloy steel high-pressure steam spools.",
       image: "assets/images/safety-crew.svg"
     },
+    // O&M Category Photos
     {
-      id: "g5",
-      title: "In-Situ Valve Seat Lapping",
-      category: "valves",
-      caption: "Optical lapping plate grinding stellite seat on Main Steam Valve (MSV) to achieve mirror finish.",
-      image: "assets/images/valve-lapping.svg"
+      id: "om1",
+      featuredHome: false,
+      title: "24/7 Plant Control & Health Monitoring",
+      category: "om",
+      categoryLabel: "O&M",
+      caption: "Round-the-clock plant control room shift operations, continuous online bearing vibration tracking, and temperature differential logging.",
+      image: "assets/images/control-room.svg"
     },
     {
-      id: "g6",
-      title: "Turbine Diaphragm Inspection",
-      category: "stg",
-      caption: "Optical alignment and axial/radial clearance verification of LP diaphragm stages.",
-      image: "assets/images/diaphragm-inspection.svg"
+      id: "om2",
+      featuredHome: false,
+      title: "Balance of Plant (BOP) Routine Maintenance",
+      category: "om",
+      categoryLabel: "O&M",
+      caption: "Routine preventive maintenance on auxiliary boiler feed pumps, cooling water circuits, and chemical dosing skids during live operations.",
+      image: "assets/images/tdbfp-cartridge.svg"
+    },
+    // Dedicated Gallery Category: Our Store Equipments & Machinery
+    {
+      id: "m1",
+      featuredHome: false,
+      title: "Hydraulic Torque Wrenches & Power Pack (700 Bar)",
+      category: "store",
+      categoryLabel: "STORE MACHINERY",
+      caption: "Heavy-duty low profile hydraulic torque wrench heads, multi-stud tensioning tools, and calibrated 700 bar power pack units for turbine casing split joint bolts.",
+      image: "assets/images/hydraulic-torque-tensioner.svg"
     },
     {
-      id: "g7",
-      title: "Laser Shaft Alignment",
-      category: "stg",
-      caption: "Sub-micron laser alignment between steam turbine coupling and generator shaft.",
+      id: "m2",
+      featuredHome: false,
+      title: "Calibrated Precision Metrology Tool Crib",
+      category: "store",
+      categoryLabel: "STORE MACHINERY",
+      caption: "NABL traceable master tool crib featuring Mitutoyo 0.001 mm dial test indicators, bridge depth micrometers, inside bore micrometers, and precision feeler gauge sets.",
+      image: "assets/images/store-tools-crib.svg"
+    },
+    {
+      id: "m3",
+      featuredHome: false,
+      title: "Sub-Micron Laser Shaft Alignment System",
+      category: "store",
+      categoryLabel: "STORE MACHINERY",
+      caption: "Optical dual-laser alignment sensors and digital receiver heads for turbine-generator and feed pump coupling alignment.",
       image: "assets/images/laser-alignment.svg"
     },
     {
-      id: "g8",
-      title: "Specialized Shutdown Crew",
-      category: "manpower",
-      caption: "Certified millwright fitters and turbine engineers mobilizing for scheduled plant turnaround.",
-      image: "assets/images/safety-crew.svg"
+      id: "m4",
+      featuredHome: false,
+      title: "Portable In-Situ Optical Valve Lapping Machine",
+      category: "store",
+      categoryLabel: "STORE MACHINERY",
+      caption: "Dedicated pneumatically driven rotary lapping machines with diamond-plated abrasive discs for restoring supercritical MSV and CRV valve seats.",
+      image: "assets/images/valve-lapping.svg"
+    },
+    {
+      id: "m5",
+      featuredHome: false,
+      title: "FFT Spectrum Vibration & Dynamic Balancing Analyser",
+      category: "store",
+      categoryLabel: "STORE MACHINERY",
+      caption: "Multi-channel portable dynamic balancing computer and piezoelectric accelerometer transducers for on-site turbine trim balancing.",
+      image: "assets/images/rotor-balancing.svg"
     }
   ],
 

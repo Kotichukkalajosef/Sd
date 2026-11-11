@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css?v=2.5">
 </head>
 <body>
 
@@ -34,7 +34,6 @@
         </nav>
 
         <div class="nav-cta">
-          <a href="contact.html" class="btn btn-outline btn-sm">Plan Outage / RFP</a>
           <button class="menu-toggle" aria-label="Toggle Mobile Navigation" aria-expanded="false">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -61,7 +60,7 @@
       <section class="reveal" style="margin-bottom: 24px;">
         <h1 class="hero-title" style="font-size: clamp(34px, 4.4vw, 56px); margin-bottom: 16px;">Life On Site: Precision Engineering.</h1>
         <p class="hero-desc" style="max-width: 820px; margin-bottom: 0;">
-          Explore photographs and schematics from our outage executions. Click any card to inspect full-screen in high resolution.
+          Explore photographs from our outage executions alongside our store equipments, calibrated metrology tools, and heavy machinery. Click any card to inspect full-screen in high resolution.
         </p>
       </section>
     </div>
@@ -82,15 +81,23 @@
     </div>
 
     <!-- Lightbox Modal -->
-    <div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Image Fullscreen View">
-      <div class="lightbox-content">
-        <button id="lightbox-close" class="lightbox-close" aria-label="Close Lightbox">&times;</button>
-        <div class="glass" style="overflow: hidden; border-radius: 16px;">
-          <img id="lightbox-img" src="" alt="Fullscreen Inspection" style="width: 100%; max-height: 70vh; object-fit: contain; background: #061524;">
-          <div style="padding: 24px;">
-            <h3 id="lightbox-title" style="font-size: 22px; font-weight: 800; color: #ffffff; margin-bottom: 6px;"></h3>
-            <p id="lightbox-caption" style="color: var(--text-muted); font-size: 15px; margin: 0; line-height: 1.6;"></p>
+    <div id="lightbox-modal" class="lightbox-modal" role="dialog" aria-modal="true" aria-label="Fullscreen Outage Image Inspection">
+      <div class="lightbox-dialog">
+        <div class="lightbox-topbar">
+          <div class="lightbox-tag-group">
+            <span id="lightbox-badge" class="badge">OUTAGE</span>
+            <span id="lightbox-counter" class="lightbox-counter">1 / 8</span>
           </div>
+          <button id="lightbox-close" class="lightbox-close-btn" aria-label="Close Lightbox">&times;</button>
+        </div>
+        <div class="lightbox-media-container">
+          <button id="lightbox-prev" class="lightbox-nav-btn lightbox-btn-prev" aria-label="Previous Image">&#10094;</button>
+          <img id="lightbox-img" src="" alt="Site Execution High-Res View">
+          <button id="lightbox-next" class="lightbox-nav-btn lightbox-btn-next" aria-label="Next Image">&#10095;</button>
+        </div>
+        <div class="lightbox-caption-box">
+          <h3 id="lightbox-title" class="lightbox-title"></h3>
+          <p id="lightbox-desc" class="lightbox-desc"></p>
         </div>
       </div>
     </div>
@@ -129,12 +136,11 @@
         <div>
           <div class="footer-col-title">SERVICES</div>
           <ul class="footer-links">
-            <li><a href="services.html#stg">STG Outage Overhauling</a></li>
-            <li><a href="services.html#tdbfp">TDBFP &amp; BFPT Overhaul</a></li>
-            <li><a href="services.html#erection">Equipment &amp; TG Erection</a></li>
-            <li><a href="services.html#fabrication">Piping &amp; Steel Fabrication</a></li>
-            <li><a href="services.html#valves">Critical Valve Reconditioning</a></li>
-            <li><a href="services.html#manpower">Technical Manpower Supply</a></li>
+            <li><a href="services.html#stg">STG Outage</a></li>
+            <li><a href="services.html#om">O&amp;M (Operation &amp; Maint.)</a></li>
+            <li><a href="services.html#manpower">Technical Man Power Supply</a></li>
+            <li><a href="services.html#fabrication">Fabrication</a></li>
+            <li><a href="services.html#erection">Erection</a></li>
           </ul>
         </div>
 
@@ -152,22 +158,24 @@
           <div class="footer-col-title">CONTACT</div>
           <div style="font-size: 14px; color: var(--text-hero-muted); line-height: 1.8;">
             <div>Emergency 24/7 Outage Hotline:</div>
-            <a href="tel:+919876543210" style="color: var(--accent-blue-bright); font-weight: 700;">+91 98765 43210</a>
+            <a href="tel:+918088640058" style="color: var(--accent-blue-bright); font-weight: 700;">+91 80886 40058</a>
             <div style="margin-top: 8px;">Engineering Desk:</div>
-            <a href="mailto:outages@sdenterprises.in" style="color: #ffffff;">outages@sdenterprises.in</a>
+            <a href="mailto:info@sdenterprises.co" style="color: #ffffff;">info@sdenterprises.co</a>
           </div>
         </div>
       </div>
 
       <div class="footer-bottom">
         <div>&copy; 2026 SD ENTERPRISES. ALL RIGHTS RESERVED.</div>
-        <div>ISO 9001:2015 &middot; ISO 45001:2018 &middot; SPECIALIZED MECHANICAL OUTAGE CONTRACTOR</div>
+        <div>GSTIN: 29ABGFM5037Q1ZK &middot; ISO 9001 &middot; ISO 14001 &middot; ISO 45001 &middot; SPECIALIZED MECHANICAL OUTAGE CONTRACTOR</div>
       </div>
     </div>
   </footer>
 
-  <script src="js/site-data.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/gallery.js"></script>
+  <script src="js/site-data.js?v=2.5"></script>
+  <script src="js/main.js?v=2.5"></script>
+  <script src="js/gallery.js?v=2.5"></script>
 </body>
 </html>
+
+

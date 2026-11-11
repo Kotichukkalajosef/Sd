@@ -37,12 +37,22 @@
   var THREE = W.THREE;
   var rm = W.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    alpha: true,
-    antialias: true,
-    powerPreference: 'high-performance'
-  });
+  var renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: 'default'
+    });
+  } catch (e) {
+    renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      alpha: true,
+      antialias: false
+    });
+  }
+  if (!renderer) return;
   renderer.setPixelRatio(Math.min(W.devicePixelRatio || 1, 1.25));
 
   var scene = new THREE.Scene();
@@ -366,12 +376,22 @@
   var iDesc = D.getElementById('stg-iDesc');
   var iChk = D.getElementById('stg-iChk');
 
-  var renderer = new THREE.WebGLRenderer({
-    canvas: canvas,
-    antialias: true,
-    alpha: false,
-    powerPreference: 'high-performance'
-  });
+  var renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      antialias: true,
+      alpha: false,
+      powerPreference: 'default'
+    });
+  } catch (e) {
+    renderer = new THREE.WebGLRenderer({
+      canvas: canvas,
+      antialias: false,
+      alpha: false
+    });
+  }
+  if (!renderer) return;
   renderer.setPixelRatio(Math.min(W.devicePixelRatio || 1, 1.25));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.1;
