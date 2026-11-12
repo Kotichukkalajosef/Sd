@@ -1,14 +1,21 @@
 /**
- * SD ENTERPRISES - 3D Turbomachinery Suite
+ * SD ENTERPRISES - 3D Turbomachinery & Thermal Power Plant Suite
  * Powered by Three.js (r128)
  *
- * Contains 2 High-Fidelity 3D Engines:
- * 1. HERO ROTOR 3D ENGINE (#gl, .scene-card):
- *    - High-detail gap-free solid forged rotor shaft with integral discs
- *    - All 8 stages with 44-72 precision blades per stage (instanced meshes)
- *    - 8 stationary diaphragms with 240 nozzle guide vanes
- *    - Coupling flange with 8 high-tensile bolts, labyrinth seal rings, bearing pedestals, and lower casing
- *    - 360° drag rotation and mouse responsiveness
+ * 1. HERO 3D THERMAL POWER PLANT STATION (#gl, #plant-viewport):
+ *    - Full Supercritical Thermal Power Station Complex Floating Seamlessly in Air
+ *    - Soft circular terrain with smooth radial alpha falloff (NO BOX, NO CORNERS, NO CLIFFS)
+ *    - Realistic crushed-stone equipment pads, concrete foundations, asphalt access roads
+ *    - Instanced scatter: organic perimeter rocks, grass tufts, bushes, perimeter trees
+ *    - Supercritical boiler island, steam drum, downcomers, ash hopper, coal bunker & conveyors
+ *    - Flue gas path: APH, electrostatic precipitators (ESP), ID fans, 125m chimney with flashing beacon
+ *    - TG Hall: translucent roof & walls, HP/IP/LP casing train, spinning rotor shaft, crossover pipe,
+ *      traveling EOT crane, condenser, deaerator
+ *    - Dual natural draft hyperboloid cooling towers with ring stiffeners and live steam plumes
+ *    - 220kV switchyard with step-up transformers, busbars, insulators, control building
+ *    - Sleek transparent camera navigation bar floating above 3D scene (Overview, Boiler, TG Floor, Chimney, Cooling Towers)
+ *    - 360° auto-rotation toggle, TG Hall roof toggle, clean landmark labels toggle
+ *    - High-Performance Optimization: COMPLETE STOP of animation & rendering when scrolled out of view!
  *
  * 2. COMPLETE TURBINE & GENERATOR ASSEMBLY BAY (#stg-canvas, #stg-stage-wrapper):
  *    - Full horizontal power train: HP Turbine, IP Turbine, LP1 Turbine, LP2 Turbine,
@@ -22,338 +29,1066 @@
  */
 
 /* ==========================================================================
-   ENGINE 1: HERO ROTOR 3D (Fixed Background / Card Projection)
+   ENGINE 1: 3D THERMAL POWER PLANT STATION (SEAMLESS FLOATING IN AIR)
    ========================================================================== */
 (function () {
   'use strict';
 
   var W = window, D = document;
-  var canvas = D.getElementById('gl');
-  var heroCard = D.querySelector('.scene-card');
-  var metricsSection = D.querySelector('.metrics-strip');
+  var cv = D.getElementById('gl');
+  var viewport = D.getElementById('plant-viewport') || (cv ? cv.parentElement : null);
 
-  if (!canvas || !heroCard || !W.THREE) return;
+  if (!cv || !viewport || !W.THREE) return;
 
   var THREE = W.THREE;
-  var rm = W.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  var renderer;
+  var R;
   try {
-    renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      alpha: true,
+    R = new THREE.WebGLRenderer({
+      canvas: cv,
       antialias: true,
-      powerPreference: 'default'
+      alpha: true,
+      powerPreference: 'high-performance'
     });
   } catch (e) {
-    renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      alpha: true,
-      antialias: false
+    R = new THREE.WebGLRenderer({
+      canvas: cv,
+      antialias: false,
+      alpha: true
     });
   }
-  if (!renderer) return;
-  renderer.setPixelRatio(Math.min(W.devicePixelRatio || 1, 1.25));
+
+  if (!R) return;
+
+  R.setClearColor(0x000000, 0);
+  R.setPixelRatio(Math.min(W.devicePixelRatio || 1, 1.5));
+  R.shadowMap.enabled = true;
+  R.shadowMap.type = THREE.PCFSoftShadowMap;
+  R.outputEncoding = THREE.sRGBEncoding;
+  R.toneMapping = THREE.ACESFilmicToneMapping;
+  R.toneMappingExposure = 1.2;
 
   var scene = new THREE.Scene();
-  var camera = new THREE.PerspectiveCamera(35, W.innerWidth / W.innerHeight, 0.1, 100);
-  camera.position.z = 12;
+  var cam = new THREE.PerspectiveCamera(42, 1, 0.5, 2000);
 
   // Lighting
-  scene.add(new THREE.AmbientLight(0x8fb4de, 0.9));
+  scene.add(new THREE.HemisphereLight(0xeaf2ff, 0x6a6258, 0.9));
 
-  var keyLight = new THREE.DirectionalLight(0xffffff, 2.4);
-  keyLight.position.set(4, 6, 8);
-  scene.add(keyLight);
+  var sun = new THREE.DirectionalLight(0xfff0d8, 1.25);
+  sun.position.set(90, 150, 70);
+  sun.castShadow = true;
+  sun.shadow.mapSize.set(2048, 2048);
+  sun.shadow.bias = -0.0004;
+  var sc = sun.shadow.camera;
+  sc.left = -170; sc.right = 170; sc.top = 170; sc.bottom = -170; sc.far = 500;
+  scene.add(sun);
 
-  var rimLight = new THREE.DirectionalLight(0x4aa3ff, 1.8);
-  rimLight.position.set(-6, 3, -5);
-  scene.add(rimLight);
+  var fill = new THREE.DirectionalLight(0x9db8d8, 0.4);
+  fill.position.set(-90, 60, -70);
+  scene.add(fill);
 
-  var goldLight = new THREE.PointLight(0xF5B94A, 3.0, 30);
-  goldLight.position.set(-4, -2, 5);
-  scene.add(goldLight);
+  var M = function (c, o) {
+    return new THREE.MeshStandardMaterial(Object.assign({ color: c, roughness: 0.65, metalness: 0.35 }, o || {}));
+  };
 
-  // Materials
-  var metalMat = new THREE.MeshStandardMaterial({ color: 0xcfd9e4, metalness: 0.7, roughness: 0.33 });
-  var darkSteelMat = new THREE.MeshStandardMaterial({ color: 0x3a5f86, metalness: 0.8, roughness: 0.4 });
-  var goldMat = new THREE.MeshStandardMaterial({ color: 0xF5B94A, metalness: 0.8, roughness: 0.28, emissive: 0x3a2600 });
-  var brightSteelMat = new THREE.MeshStandardMaterial({ color: 0xeef3f8, metalness: 0.9, roughness: 0.18 });
-  var diaphragmMat = new THREE.MeshStandardMaterial({
-    color: 0x2f6fa8,
-    metalness: 0.6,
-    roughness: 0.5,
+  function add(g, m, x, y, z, p) {
+    var o = new THREE.Mesh(g, m);
+    o.position.set(x, y, z);
+    o.castShadow = o.receiveShadow = true;
+    (p || scene).add(o);
+    return o;
+  }
+
+  function box(w, h, d, x, y, z, c, p, o) {
+    return add(new THREE.BoxGeometry(w, h, d), M(c, o), x, y, z, p);
+  }
+
+  function cyl(rt, rb, h, x, y, z, c, p, ax, o, seg) {
+    var m = add(new THREE.CylinderGeometry(rt, rb, h, seg || 32), M(c, o), x, y, z, p);
+    if (ax === 'x') m.rotation.z = Math.PI / 2;
+    if (ax === 'z') m.rotation.x = Math.PI / 2;
+    return m;
+  }
+
+  function pipe(pts, r, c, o) {
+    var curve = new THREE.CatmullRomCurve3(pts.map(function (pt) { return new THREE.Vector3(pt[0], pt[1], pt[2]); }), false, 'catmullrom', 0.05);
+    return add(new THREE.TubeGeometry(curve, 64, r, 12), M(c, o), 0, 0, 0);
+  }
+
+  function ring(r, y, x, z, tube, c) {
+    var m = add(new THREE.TorusGeometry(r, tube, 8, 40), M(c), x, y, z);
+    m.rotation.x = Math.PI / 2;
+    return m;
+  }
+
+  // Clean landmark labels
+  var labels = [];
+  var labelsContainer = D.getElementById('plant-3d-labels') || viewport;
+
+  function label(t, x, y, z) {
+    var d = D.createElement('div');
+    d.className = 'plant-lbl';
+    d.textContent = t;
+    if (labelsContainer) labelsContainer.appendChild(d);
+    labels.push({ d: d, v: new THREE.Vector3(x, y, z) });
+  }
+
+  var conc = { roughness: 0.95, metalness: 0 };
+  var rnd = function (a, b) { return a + Math.random() * (b - a); };
+
+  function blob(g, x, y, r, rgb, a) {
+    var q = g.createRadialGradient(x, y, 0, x, y, r);
+    q.addColorStop(0, 'rgba(' + rgb + ',' + a + ')');
+    q.addColorStop(1, 'rgba(' + rgb + ',0)');
+    g.fillStyle = q;
+    g.fillRect(x - r, y - r, 2 * r, 2 * r);
+  }
+
+  // ===== SEAMLESS ORGANIC CIRCULAR GROUND (NO BOX, NO CORNERS, NO CLIFF EDGES) =====
+  var gCanvas = D.createElement('canvas');
+  gCanvas.width = gCanvas.height = 1024;
+  var gctx = gCanvas.getContext('2d');
+  var gn = 1024, gr = gn / 2;
+
+  // Base grass pattern - rich verdant green grass (NO SAND, NO DIRT PATCHES)
+  gctx.fillStyle = '#3f7027';
+  gctx.fillRect(0, 0, gn, gn);
+  for (var gi = 0; gi < 50; gi++) {
+    blob(gctx, rnd(0, gn), rnd(0, gn), rnd(35, 95), Math.random() < 0.5 ? '52,106,36' : '62,122,44', 0.32);
+  }
+  for (var gj = 0; gj < 26000; gj++) {
+    var gx = rnd(0, gn), gy = rnd(0, gn);
+    gctx.strokeStyle = 'hsl(' + rnd(72, 108) + ',' + rnd(42, 62) + '%,' + rnd(18, 36) + '%)';
+    gctx.lineWidth = rnd(0.8, 1.8);
+    gctx.beginPath();
+    gctx.moveTo(gx, gy);
+    gctx.lineTo(gx + rnd(-2, 2), gy - rnd(2, 7));
+    gctx.stroke();
+  }
+  for (var gk = 0; gk < 16; gk++) {
+    blob(gctx, rnd(0, gn), rnd(0, gn), rnd(20, 50), '45,90,30', 0.25);
+  }
+
+  // Smooth Radial Alpha Falloff: perimeter fades softly so island floats seamlessly with zero sharp cut
+  gctx.globalCompositeOperation = 'destination-in';
+  var alphaGrad = gctx.createRadialGradient(gr, gr, gr * 0.65, gr, gr, gr * 0.98);
+  alphaGrad.addColorStop(0, 'rgba(0,0,0,1)');
+  alphaGrad.addColorStop(0.85, 'rgba(0,0,0,0.85)');
+  alphaGrad.addColorStop(0.96, 'rgba(0,0,0,0.22)');
+  alphaGrad.addColorStop(1, 'rgba(0,0,0,0)');
+  gctx.fillStyle = alphaGrad;
+  gctx.beginPath();
+  gctx.arc(gr, gr, gr, 0, Math.PI * 2);
+  gctx.fill();
+  gctx.globalCompositeOperation = 'source-over';
+
+  var groundTex = new THREE.CanvasTexture(gCanvas);
+  groundTex.encoding = THREE.sRGBEncoding;
+
+  var groundMat = new THREE.MeshStandardMaterial({
+    map: groundTex,
     transparent: true,
-    opacity: 0.78,
-    side: THREE.DoubleSide
+    roughness: 0.96,
+    metalness: 0,
+    depthWrite: false
   });
 
-  var masterGroup = new THREE.Group();
-  var rotorGroup = new THREE.Group();
-  var stages = [];
-  var diaphragms = [];
+  // Circular ground disk: radius 125 fits comfortably within viewport without cutting at the bottom
+  var groundGeo = new THREE.CircleGeometry(125, 64);
+  var groundMesh = new THREE.Mesh(groundGeo, groundMat);
+  groundMesh.rotation.x = -Math.PI / 2;
+  groundMesh.position.set(5, 0.05, -8);
+  groundMesh.receiveShadow = true;
+  scene.add(groundMesh);
 
-  scene.add(masterGroup);
-  masterGroup.add(rotorGroup);
+  // High-Fidelity Concrete Floor Texture with Expansion Joint Grid
+  function ctex(n, draw) {
+    var c = D.createElement('canvas');
+    c.width = c.height = n;
+    draw(c.getContext('2d'), n);
+    var t = new THREE.CanvasTexture(c);
+    t.wrapS = t.wrapT = THREE.RepeatWrapping;
+    t.encoding = THREE.sRGBEncoding;
+    return t;
+  }
 
-  function makeCyl(r, len, x, mat, parent) {
-    var geom = new THREE.CylinderGeometry(r, r, len, 40);
-    var m = new THREE.Mesh(geom, mat);
-    m.rotation.z = Math.PI / 2;
-    m.position.x = x;
-    (parent || rotorGroup).add(m);
+  var concFloorT = ctex(512, function (g, n) {
+    // Crisp industrial concrete floor base color
+    g.fillStyle = '#c5c3bc';
+    g.fillRect(0, 0, n, n);
+
+    // Fine concrete aggregates and realistic micro-porosity
+    for (var i = 0; i < 8000; i++) {
+      var lum = Math.random() < 0.5 ? '55,55,55' : '255,255,255';
+      g.fillStyle = 'rgba(' + lum + ',' + rnd(0.02, 0.08) + ')';
+      g.fillRect(rnd(0, n), rnd(0, n), rnd(1, 3), rnd(1, 3));
+    }
+
+    // Concrete expansion joint grid lines (4x4 modular floor panels)
+    g.strokeStyle = 'rgba(85, 83, 76, 0.65)';
+    g.lineWidth = 2.5;
+    g.strokeRect(1, 1, n - 2, n - 2);
+
+    var step = n / 4;
+    g.beginPath();
+    for (var k = 1; k < 4; k++) {
+      g.moveTo(k * step, 0); g.lineTo(k * step, n);
+      g.moveTo(0, k * step); g.lineTo(n, k * step);
+    }
+    g.stroke();
+
+    // Subtle edge highlight on concrete slab panels
+    g.strokeStyle = 'rgba(255, 255, 255, 0.22)';
+    g.lineWidth = 1;
+    for (var py = 0; py < 4; py++) {
+      for (var px = 0; px < 4; px++) {
+        g.strokeRect(px * step + 2, py * step + 2, step - 4, step - 4);
+      }
+    }
+  });
+
+  var aspT = ctex(256, function (g, n) {
+    g.fillStyle = '#34363a';
+    g.fillRect(0, 0, n, n);
+    for (var i = 0; i < 6000; i++) {
+      var l = rnd(25, 75);
+      g.fillStyle = 'rgba(' + l + ',' + l + ',' + l + ',' + rnd(0.15, 0.5) + ')';
+      g.fillRect(rnd(0, n), rnd(0, n), rnd(1, 2.2), rnd(1, 2.2));
+    }
+  });
+
+  function tm(t, rx, ry) {
+    var c = t.clone();
+    c.needsUpdate = true;
+    c.repeat.set(rx, ry);
+    return new THREE.MeshStandardMaterial({ map: c, roughness: 0.92, metalness: 0.05 });
+  }
+
+  // ===== INDUSTRIAL CONCRETE FLOOR FOUNDATION SLABS (ONLY WHEREVER PLANT BUILDINGS ARE) =====
+  function concreteFloor(w, d, x, z, h) {
+    var thickness = h || 0.38;
+    var slab = box(w, thickness, d, x, thickness / 2, z, 0xffffff);
+    slab.material = tm(concFloorT, w / 14, d / 14);
+    slab.castShadow = true;
+    slab.receiveShadow = true;
+
+    // Engineered concrete perimeter curb border
+    var curbH = 0.10, curbW = 0.5;
+    box(w + curbW * 2, curbH, curbW, x, thickness + curbH / 2, z - d / 2 - curbW / 2, 0x8a8880);
+    box(w + curbW * 2, curbH, curbW, x, thickness + curbH / 2, z + d / 2 + curbW / 2, 0x8a8880);
+    box(curbW, curbH, d, x - w / 2 - curbW / 2, thickness + curbH / 2, z, 0x8a8880);
+    box(curbW, curbH, d, x + w / 2 + curbW / 2, thickness + curbH / 2, z, 0x8a8880);
+    return slab;
+  }
+
+  // 1. Main Power Generation Floor (TG Hall + Boiler Island + ESP / Flue Gas Path + Chimney Corridor)
+  concreteFloor(144, 46, -20, 5, 0.38);
+
+  // 2. Heavy Chimney Stack Reinforced Foundation Plinth
+  concreteFloor(22, 22, -86, 13, 0.44);
+
+  // 3. Coal Handling, Bunker Bay & Conveyor Gallery Floor
+  concreteFloor(28, 44, -20, 42, 0.38);
+  add(new THREE.CylinderGeometry(14.5, 14.5, 0.4, 48), tm(concFloorT, 3, 3), -20, 0.2, 52).castShadow = true;
+
+  // 4. Central Control & Administration Complex Floor
+  concreteFloor(36, 26, 22, 40, 0.38);
+
+  // 5. 220kV Switchyard & Step-Up Transformer Heavy Equipment Pad
+  concreteFloor(54, 42, 74, 30, 0.38);
+
+  // 6. Natural Draft Cooling Towers Concrete Apron & Water Collection Basins
+  concreteFloor(78, 46, 52, -52, 0.38);
+  [[34, -52], [70, -52]].forEach(function (t) {
+    var p = add(new THREE.CylinderGeometry(17.5, 17.5, 0.45, 48), tm(concFloorT, 4, 4), t[0], 0.225, t[1]);
+    p.castShadow = true;
+  });
+
+  // Access roads (connecting concrete floors smoothly across the site)
+  function road(w, d, x, z) {
+    var m = box(w, 0.12, d, x, 0.06, z, 0xffffff);
+    m.material = tm(aspT, w / 6, d / 6);
+    m.castShadow = false;
+  }
+  road(160, 7.5, 5, 68);
+  road(7.5, 120, 88, -10);
+  road(6.5, 22, 22, 60);
+
+  // Check so natural scatter (rocks, bushes, trees) NEVER spawn on top of concrete floors
+  function isOnConcreteFloor(x, z) {
+    if (x > -96 && x < 56 && z > -22 && z < 30) return true; // Main power block
+    if (x > 10 && x < 94 && z > -78 && z < -26) return true; // Cooling towers
+    if (x > 44 && x < 104 && z > 6 && z < 54) return true;   // Switchyard
+    if (x > -36 && x < -4 && z > 18 && z < 68) return true;  // Coal handling
+    if (x > 2 && x < 42 && z > 25 && z < 55) return true;    // Control building
+    return false;
+  }
+
+  // Instanced natural scatter (rocks, shrubs, trees placed purely within green grass landscape)
+  var objD = new THREE.Object3D(), colorC = new THREE.Color();
+
+  function organicSpot(minR, maxR) {
+    for (var attempt = 0; attempt < 25; attempt++) {
+      var angle = Math.random() * Math.PI * 2;
+      var dist = rnd(minR, maxR);
+      var x = 5 + Math.cos(angle) * dist;
+      var z = -8 + Math.sin(angle) * dist;
+      if (!isOnConcreteFloor(x, z)) return [x, z];
+    }
+    return [5 + Math.cos(angle) * maxR, -8 + Math.sin(angle) * maxR];
+  }
+
+  function inst(geo, mat, n, fn, shadow) {
+    var m = new THREE.InstancedMesh(geo, mat, n);
+    for (var i = 0; i < n; i++) {
+      fn(i, m);
+      objD.updateMatrix();
+      m.setMatrixAt(i, objD.matrix);
+    }
+    m.castShadow = !!shadow;
+    m.receiveShadow = true;
+    scene.add(m);
     return m;
   }
 
-  function makeTorus(r, t, x, mat, parent) {
-    var geom = new THREE.TorusGeometry(r, t, 8, 64);
-    var m = new THREE.Mesh(geom, mat);
-    m.rotation.y = Math.PI / 2;
-    m.position.x = x;
-    (parent || rotorGroup).add(m);
-    return m;
+  // Scattered rocks (purely on grass)
+  var rk = inst(new THREE.DodecahedronGeometry(1, 0), M(0xffffff, { roughness: 0.95, metalness: 0 }), 280, function (i, m) {
+    var sp = organicSpot(62, 110), s = rnd(0.3, 1.3);
+    objD.position.set(sp[0], -0.2 + s * 0.3, sp[1]);
+    objD.rotation.set(rnd(0, 3), rnd(0, 3), rnd(0, 3));
+    objD.scale.set(s * rnd(0.9, 1.3), s * rnd(0.5, 0.9), s * rnd(0.9, 1.3));
+    m.setColorAt(i, colorC.setHSL(rnd(0.06, 0.12), rnd(0, 0.1), rnd(0.35, 0.65)));
+  }, true);
+  if (rk.instanceColor) rk.instanceColor.needsUpdate = true;
+
+  // Scattered bushes (purely on grass)
+  var bs = inst(new THREE.IcosahedronGeometry(1, 1), M(0xffffff, { roughness: 1, metalness: 0 }), 75, function (i, m) {
+    var sp = organicSpot(68, 112), s = rnd(1, 2.0);
+    objD.position.set(sp[0], -0.2 + s * 0.5, sp[1]);
+    objD.rotation.set(0, rnd(0, 3), 0);
+    objD.scale.set(s * rnd(1, 1.4), s * rnd(0.6, 1), s * rnd(1, 1.4));
+    m.setColorAt(i, colorC.setHSL(rnd(0.22, 0.32), rnd(0.4, 0.6), rnd(0.14, 0.28)));
+  }, true);
+  if (bs.instanceColor) bs.instanceColor.needsUpdate = true;
+
+  // Perimeter trees (purely on grass)
+  for (var trI = 0; trI < 24; trI++) {
+    var trSp = organicSpot(75, 114), ts = rnd(0.8, 1.4), thh = rnd(0.2, 0.32);
+    cyl(0.35 * ts, 0.5 * ts, 3.4 * ts, trSp[0], -0.2 + 1.7 * ts, trSp[1], 0x5a4028, null, '', { roughness: 1, metalness: 0 }, 8);
+    for (var k = 0; k < 3; k++) {
+      add(new THREE.IcosahedronGeometry(rnd(1.8, 2.5) * ts, 1), M(new THREE.Color().setHSL(thh, 0.5, rnd(0.16, 0.26)), { roughness: 1, metalness: 0 }), trSp[0] + rnd(-1, 1) * ts, -0.2 + (3.6 + k * 1.3) * ts, trSp[1] + rnd(-1, 1) * ts);
+    }
   }
 
-  // 1. Continuous Gap-Free Rotor Shaft
-  makeCyl(0.42, 6.9, 0, metalMat);
-  makeCyl(0.34, 0.4, -3.65, darkSteelMat);
-  makeCyl(0.34, 0.4, 3.65, darkSteelMat);
-  makeCyl(0.27, 0.7, -4.15, brightSteelMat);
-  makeCyl(0.27, 0.7, 4.15, brightSteelMat);
-  makeCyl(0.30, 0.45, -4.60, metalMat); // Continuous shoulder
-  makeCyl(0.82, 0.16, -4.85, metalMat); // Coupling flange
-  makeCyl(0.62, 0.10, -3.30, metalMat); // Thrust collar
-
-  // 8 High-Tensile Coupling Bolts
-  for (var k = 0; k < 8; k++) {
-    var bolt = makeCyl(0.06, 0.34, -4.85, brightSteelMat);
-    var angle = (k / 8) * Math.PI * 2;
-    bolt.position.y = Math.cos(angle) * 0.62;
-    bolt.position.z = Math.sin(angle) * 0.62;
-  }
-
-  // Labyrinth Oil Baffle Rings
-  [-3.25, -3.10, 3.10, 3.25].forEach(function (x) {
-    makeTorus(0.46, 0.03, x, metalMat);
+  // ===== BOILER ISLAND =====
+  var steel = 0x55677a, hs = 0x3b6aa0;
+  [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(function (pair) {
+    box(1.3, 60, 1.3, -20 + pair[0] * 10, 30, pair[1] * 10, steel);
   });
 
-  // Diaphragm Lathe Ring Template
-  var rin = 0.50, rout = 1.95;
-  var pts = [
-    new THREE.Vector2(rin, -0.09),
-    new THREE.Vector2(rout, -0.09),
-    new THREE.Vector2(rout, 0.09),
-    new THREE.Vector2(rin, 0.09),
-    new THREE.Vector2(rin, -0.09)
+  for (var by = 8; by <= 56; by += 8) {
+    box(21, 0.7, 0.7, -20, by, -10, steel);
+    box(21, 0.7, 0.7, -20, by, 10, steel);
+    box(0.7, 0.7, 21, -30, by, 0, steel);
+    box(0.7, 0.7, 21, -10, by, 0, steel);
+    if (by % 16 === 8) {
+      box(23, 0.25, 23, -20, by, 0, 0x6c7177, null, { metalness: 0.6 });
+    }
+  }
+
+  box(14, 40, 14, -20, 28, 0, 0xb9c0c6, null, { roughness: 0.5, metalness: 0.5 });
+  for (var fy = 10; fy < 48; fy += 6) {
+    box(14.6, 0.5, 14.6, -20, fy, 0, 0x7d868e);
+  }
+  box(14.4, 6, 14.4, -20, 10, 0, 0xff6a1a, null, { emissive: 0xff4400, emissiveIntensity: 0.9 });
+  box(14.4, 1.5, 14.4, -20, 48.7, 0, 0x7d868e);
+
+  var ashHopper = add(new THREE.CylinderGeometry(1.5, 10, 6, 4), M(0x5b5551), -20, 5, 0);
+  ashHopper.rotation.y = Math.PI / 4;
+
+  for (var bi = 0; bi < 4; bi++) {
+    cyl(0.55, 0.55, 2.2, -26 + bi * 4, 8, -7.4, 0x3a3d42, null, 'z');
+  }
+
+  // Steam drum & downcomers
+  cyl(2.3, 2.3, 18, -20, 59, 0, 0xcfd6dc, null, 'z', { metalness: 0.7, roughness: 0.35 });
+  [-8, 8].forEach(function (z) {
+    cyl(2.35, 2.35, 0.4, -20, 59, z, 0x333b44, null, 'z');
+  });
+  for (var di = -1; di <= 1; di++) {
+    cyl(0.45, 0.45, 50, -28.3, 33, di * 4.5, 0x9aa5b0);
+  }
+
+  // Main steam pipe
+  pipe([[-20, 60, 0], [-13, 63, 0], [-3, 59, 0], [0, 44, 0], [5, 28, 0], [8, 19, 0], [10.5, 15.8, 0]], 0.6, 0xcfd4d9, { metalness: 0.8, roughness: 0.3 });
+
+  box(6, 34, 12, -7, 28, 0, 0xaab2b9);
+  [44, 36, 28, 20].forEach(function (y) {
+    box(6.3, 3, 12.3, -7, y, 0, 0xb4552e, null, { roughness: 0.8 });
+  });
+  cyl(2.8, 2.8, 5, -7, 5, 3.5, 0x4f7ea8);
+  cyl(2.8, 2.8, 5, -7, 5, -3.5, 0x4f7ea8);
+
+  // Stair tower
+  box(4, 58, 4, -34, 29, -13, steel);
+  for (var sy = 4; sy < 58; sy += 6) {
+    box(5, 0.3, 5, -34, sy, -13, 0xd9a91f);
+  }
+
+  // Coal handling gallery
+  [-1, 1].forEach(function (a) {
+    [-1, 1].forEach(function (b) {
+      box(0.9, 38, 0.9, -20 + a * 4.2, 19, 20 + b * 4.2, steel);
+    });
+  });
+  box(10, 10, 10, -20, 42, 20, 0x8a7a62);
+  var cbCone = add(new THREE.CylinderGeometry(5, 1, 4, 4), M(0x6e5f4a), -20, 35, 20);
+  cbCone.rotation.y = Math.PI / 4;
+
+  var convAng = Math.atan2(36, 29);
+  var conv = box(2.6, 1.8, Math.hypot(36, 29), -20, 22, 34, 0x5d7f6c);
+  conv.rotation.x = convAng;
+
+  for (var ci = 0; ci <= 5; ci++) {
+    var ct = ci / 5, cy = 2 + 36 * ct;
+    box(0.4, cy, 0.4, -20, cy / 2 - 1.2, 50 - 30 * ct, steel);
+  }
+  add(new THREE.ConeGeometry(11, 9, 32), M(0x1b1b1d, { roughness: 1, metalness: 0 }), -20, 4.5, 56);
+
+  // ===== GAS PATH (APH -> ESP -> ID Fans -> Chimney) =====
+  box(3, 3, 13, -7, 5, 6.5, 0x8c97a1);
+  box(30, 3, 3, -22, 5, 13, 0x8c97a1);
+  [0, 1, 2].forEach(function (i) {
+    var x = -38 - i * 10;
+    box(8.2, 13, 15, x, 10, 13, 0x95a2ab);
+    for (var j = -2; j <= 2; j++) {
+      box(0.5, 2.5, 0.5, x + j * 1.4, 17.4, 13, 0x333);
+    }
+    [-1, 1].forEach(function (a) {
+      [-1, 1].forEach(function (b) {
+        var espCone = add(new THREE.CylinderGeometry(0.6, 2.2, 3.4, 4), M(0x6f7a83), x + a * 2, 1.7, 13 + b * 4);
+        espCone.rotation.y = Math.PI / 4;
+      });
+    });
+  });
+  box(14, 3, 3, -72, 5, 13, 0x8c97a1);
+  cyl(2.4, 2.4, 2.2, -66, 4.5, 6.5, 0x2c6aa0, null, 'z');
+  cyl(2.4, 2.4, 2.2, -66, 4.5, 19.5, 0x2c6aa0, null, 'z');
+
+  // ===== 125M CHIMNEY WITH AVIATION BEACON =====
+  var CX = -86, CZ = 13, H = 125, seg = 10;
+  function rAt(y) { return 5.8 - (y / H) * 3; }
+
+  for (var chi = 0; chi < seg; chi++) {
+    var chh = H / seg;
+    add(new THREE.CylinderGeometry(rAt((chi + 1) * chh), rAt(chi * chh), chh, 40), M(chi % 2 ? 0xe9e9e6 : 0xc42b1f, { roughness: 0.85, metalness: 0.02 }), CX, chh * chi + chh / 2, CZ);
+  }
+  [28, 58, 88, H - 2].forEach(function (y) {
+    cyl(rAt(y) + 1.4, rAt(y) + 1.4, 0.3, CX, y, CZ, 0x555a60);
+    ring(rAt(y) + 1.4, y + 1, CX, CZ, 0.07, 0xcccccc);
+  });
+  cyl(3.4, 3.4, 1.2, CX, H + 0.2, CZ, 0x222, null);
+  cyl(0.07, 0.07, 7, CX, H + 4.5, CZ, 0xcccccc, null);
+  box(8, 3, 8, CX, 1.5, CZ, 0x8a8f94);
+  box(0.7, H * 0.92, 0.15, CX + rAt(60) + 0.1, H * 0.46, CZ, 0x333);
+
+  var beacon = add(new THREE.SphereGeometry(0.8, 12, 12), new THREE.MeshBasicMaterial({ color: 0xff2020 }), CX, H + 1.6, CZ);
+
+  // ===== TG HALL =====
+  var hall = new THREE.Group();
+  scene.add(hall);
+
+  var roofMat = M(0x8fb0cc, { transparent: true, opacity: 0.45, depthWrite: false, side: THREE.DoubleSide });
+  var wallMat = M(0x9ec3e0, { transparent: true, opacity: 0.16, depthWrite: false, side: THREE.DoubleSide });
+
+  var roof = new THREE.Mesh(new THREE.BoxGeometry(43, 0.8, 23), roofMat);
+  roof.position.set(24, 30, 0);
+  hall.add(roof);
+
+  var rg = new THREE.Mesh(new THREE.BoxGeometry(43, 2, 5), roofMat);
+  rg.position.set(0, 1.4, 0);
+  roof.add(rg);
+
+  [[24, 15, -11, 43, 30, 0.3], [24, 15, 11, 43, 30, 0.3], [3, 15, 0, 0.3, 30, 23], [45, 15, 0, 0.3, 30, 23]].forEach(function (a) {
+    var w = new THREE.Mesh(new THREE.BoxGeometry(a[3], a[4], a[5]), wallMat);
+    w.position.set(a[0], a[1], a[2]);
+    hall.add(w);
+  });
+
+  for (var ti = 0; ti <= 6; ti++) {
+    [-10.5, 10.5].forEach(function (z) {
+      box(0.9, 30, 0.9, 3.5 + ti * 7, 15, z, hs);
+    });
+    box(0.7, 0.7, 21, 3.5 + ti * 7, 29.3, 0, hs);
+    var t1 = box(0.4, 0.4, 11.7, 3.5 + ti * 7, 28.2, -5.4, hs);
+    t1.rotation.x = 0.45;
+    var t2 = box(0.4, 0.4, 11.7, 3.5 + ti * 7, 28.2, 5.4, hs);
+    t2.rotation.x = -0.45;
+  }
+
+  box(41, 1, 20, 24, 10, 0, 0xa09d96, null, { roughness: 0.8 });
+  for (var pi = 0; pi < 9; pi++) {
+    [-8, 8].forEach(function (z) {
+      box(1.3, 9.5, 1.3, 6 + pi * 4.5, 4.75, z, 0x8d8a84);
+    });
+  }
+  box(42, 0.2, 21, 24, 0.1, 0, 0x7c7a75, null, conc);
+
+  // Turbine Train & Casing
+  var AY = 14;
+  function casing(x, len, r, c) {
+    cyl(r, r, len, x, AY, 0, c, null, 'x', { metalness: 0.5, roughness: 0.45 });
+    [-1, 1].forEach(function (s) {
+      cyl(r * 1.06, r * 1.06, 0.4, x + s * len / 2, AY, 0, 0x2f3640, null, 'x');
+    });
+    [-1, 0, 1].forEach(function (k) {
+      cyl(r * 1.04, r * 1.04, 0.22, x + k * len * 0.27, AY, 0, 0x333b44, null, 'x');
+    });
+    box(len * 0.7, AY - 10.5 - r * 0.4, r * 1.2, x, (AY + 10.5 - r * 0.4) / 2 - 0.4, 0, 0x39424d);
+    cyl(r * 0.55, r * 0.55, len * 0.8, x, AY + r * 0.8, 0, c, null, 'x');
+  }
+
+  casing(10.5, 5, 1.7, 0xc7452f);
+  casing(17, 6, 2.1, 0xd0572f);
+  casing(25, 8, 3.3, 0x9fb3c6);
+  casing(35, 9, 2.5, 0x2f6f9f);
+  casing(42, 3, 1.4, 0x9aa3ab);
+
+  cyl(1.1, 1.1, 7, 35, AY + 2.9, 0, 0x8896a3, null, 'x');
+  [13.5, 20.5, 29.8, 40.6].forEach(function (x) {
+    box(1.3, AY - 10.5 - 0.5, 2.2, x, (AY + 10.5) / 2 - 0.3, 0, 0x2f3640);
+  });
+
+  // Spinning turbine rotor inside TG hall
+  var rot = new THREE.Group();
+  rot.position.set(0, AY, 0);
+  scene.add(rot);
+  cyl(0.55, 0.55, 36, 25, 0, 0, 0xe2e6ea, rot, 'x', { metalness: 0.9, roughness: 0.2 });
+  [13.5, 20.5, 29.8, 40.6].forEach(function (x) {
+    cyl(1.25, 1.25, 0.5, x, 0, 0, 0xf0b323, rot, 'x');
+    box(0.6, 0.3, 2.4, x, 0, 0, 0xff3b30, rot);
+    box(0.6, 2.4, 0.3, x, 0, 0, 0x111, rot);
+  });
+
+  pipe([[17, 16.2, 0], [17, 19.5, 0], [25, 20.5, 0], [25, 17.4, 0]], 0.5, 0xcfd4d9, { metalness: 0.8, roughness: 0.3 });
+
+  box(7, 3, 6, 25, 7.8, 0, 0x8a95a1);
+  cyl(3.2, 3.2, 14, 25, 4.5, 0, 0x7f8f9c, null, 'x');
+  [-1, 1].forEach(function (z) {
+    cyl(0.65, 0.65, 8, 25, 2, z * 7.5, 0x2c6aa0, null, 'z');
+  });
+
+  cyl(1.7, 1.7, 12, 20, 25, -7.5, 0xb6c0c8, null, 'x');
+  for (var fwi = 0; fwi < 3; fwi++) {
+    cyl(0.9, 0.9, 7, 12 + fwi * 5, 12, -7.5, 0xa0abb5, null, 'x');
+  }
+  for (var pi2 = 0; pi2 < 3; pi2++) {
+    cyl(0.8, 0.8, 1.6, 32 + pi2 * 3, 1.4, -6, 0x2f6f9f, null, 'z');
+    cyl(0.5, 0.5, 1.2, 32 + pi2 * 3, 1.4, -7.6, 0xbbbbbb, null, 'z');
+  }
+  pipe([[21, 25, -7.5], [22, 16, -8], [28, 6, -8], [34, 2, -6]], 0.35, 0x3c9a63);
+  pipe([[18, 6, 0], [10, 6, 3], [6, 12, -3], [8.5, 17, -1.5]], 0.3, 0xd9a43a);
+
+  // Traveling EOT Crane
+  var crane = new THREE.Group();
+  crane.position.set(10, 0, 0);
+  scene.add(crane);
+  box(1, 1.2, 22, 0, 26.5, 0, 0xe8a317, crane);
+  box(2.5, 0.8, 2.5, 0, 25.2, 0, 0x222, crane);
+  box(0.15, 6, 0.15, 0, 22, 0, 0x111, crane);
+  box(1.2, 0.6, 1.2, 0, 19, 0, 0xe8a317, crane);
+  box(43, 0.5, 0.6, 24, 27.4, -10.3, 0x555);
+  box(43, 0.5, 0.6, 24, 27.4, 10.3, 0x555);
+
+  // ===== COOLING TOWERS =====
+  var towers = [[34, -52], [70, -52]];
+  function buildTower(tx, tz) {
+    var pts = [];
+    for (var i = 0; i <= 40; i++) {
+      var y = 5 + i * 47 / 40;
+      pts.push(new THREE.Vector2(Math.sqrt(64 + 0.081 * Math.pow(y - 36, 2)), y));
+    }
+    var m = new THREE.Mesh(new THREE.LatheGeometry(pts, 64), M(0xcfcabd, { roughness: 0.95, metalness: 0, side: THREE.DoubleSide }));
+    m.position.set(tx, 0, tz);
+    m.castShadow = m.receiveShadow = true;
+    scene.add(m);
+
+    [14, 24, 34, 44].forEach(function (y) {
+      var r = Math.sqrt(64 + 0.081 * Math.pow(y - 36, 2));
+      ring(r, y, tx, tz, 0.18, 0xb5afa2);
+    });
+    ring(8.9, 52, tx, tz, 0.35, 0x9c9c96);
+
+    var dk = new THREE.Mesh(new THREE.CylinderGeometry(11.9, 11.9, 5, 48, 1, true), M(0x1d2226, { roughness: 1, metalness: 0, side: THREE.DoubleSide }));
+    dk.position.set(tx, 2.5, tz);
+    scene.add(dk);
+
+    for (var ci = 0; ci < 36; ci++) {
+      var a = ci / 36 * Math.PI * 2;
+      cyl(0.35, 0.35, 5.2, tx + Math.cos(a) * 11.9, 2.6, tz + Math.sin(a) * 11.9, 0xb0b0aa, null, '', conc, 8);
+    }
+    cyl(14, 14, 0.5, tx, 0.2, tz, 0x2f86a8, null, '', { roughness: 0.2, metalness: 0.1, transparent: true, opacity: 0.9 }, 48);
+    ring(14, 0.6, tx, tz, 0.3, 0x888888);
+  }
+  towers.forEach(function (t) { buildTower(t[0], t[1]); });
+
+  pipe([[25, 1.3, -9], [27, 1.3, -30], [34, 1.3, -42]], 0.9, 0x2f86b8);
+  pipe([[27, 1.3, -30], [55, 1.3, -38], [70, 1.3, -42]], 0.9, 0x2f86b8);
+
+  // ===== 220kV SWITCHYARD & TRANSFORMERS =====
+  for (var si = 0; si < 3; si++) {
+    var sx = 58 + si * 12;
+    box(5, 5, 7, sx, 2.5, 36, 0x7f9186, null, { roughness: 0.6 });
+    for (var sk = -1; sk <= 1; sk++) {
+      cyl(0.35, 0.35, 3, sx + sk * 1.6, 6.4, 36, 0xb3622d);
+    }
+    for (var sk2 = -2; sk2 <= 2; sk2++) {
+      box(0.2, 2, 5, sx - 3.1, 3, 36 + sk2 * 1.2, 0x555a60);
+    }
+  }
+
+  for (var gi = 0; gi < 3; gi++) {
+    var gx = 56 + gi * 14;
+    [-1, 1].forEach(function (s) {
+      box(0.6, 22, 0.6, gx, 11, 22 + s * 4, 0x9aa3ab);
+    });
+    box(0.6, 0.6, 8.6, gx, 21, 22, 0x9aa3ab);
+    box(0.6, 0.6, 8.6, gx, 17, 22, 0x9aa3ab);
+    for (var gk = -1; gk <= 1; gk++) {
+      cyl(0.3, 0.3, 2.2, gx, 19, 22 + gk * 3, 0xd8cfc0);
+    }
+  }
+  pipe([[56, 21, 18], [64, 19, 20], [72, 21, 18], [80, 19, 22], [96, 22, 22]], 0.12, 0x222);
+
+  // Administration Building
+  box(22, 10, 12, 22, 5, 40, 0xe6dcc6, null, { roughness: 0.9, metalness: 0 });
+  box(22.4, 1, 12.4, 22, 10.4, 40, 0x8a4b3a);
+  for (var wi = 0; wi < 9; wi++) {
+    box(1.6, 2.2, 0.1, 13 + wi * 2.2, 6, 33.95, 0x6cc3f5, null, { emissive: 0x1a4a6a });
+  }
+
+  // ===== LIVE STEAM / SMOKE PARTICLE EMITTERS =====
+  var steamTex = (function () {
+    var c = D.createElement('canvas');
+    c.width = c.height = 64;
+    var ctx = c.getContext('2d');
+    var grad = ctx.createRadialGradient(32, 32, 2, 32, 32, 32);
+    grad.addColorStop(0, 'rgba(255,255,255,0.85)');
+    grad.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, 64, 64);
+    return new THREE.CanvasTexture(c);
+  })();
+
+  var parts = [];
+  function createEmitter(x, y, z, col, rate, vy, sp, grow, life, s) {
+    return { x: x, y: y, z: z, col: col, rate: rate, vy: vy, sp: sp, grow: grow, life: life, s: s, t: 0 };
+  }
+
+  var ems = [
+    createEmitter(CX, H + 1, CZ, 0x8a8f95, 0.05, 0.22, 0.04, 0.07, 300, 3),
+    createEmitter(towers[0][0], 53, towers[0][1], 0xf5f8fb, 0.04, 0.3, 0.06, 0.14, 240, 6),
+    createEmitter(towers[1][0], 53, towers[1][1], 0xf5f8fb, 0.04, 0.3, 0.06, 0.14, 240, 6)
   ];
-  var diaGeom = new THREE.LatheGeometry(pts, 48, Math.PI, Math.PI);
-  var dummyObj = new THREE.Object3D();
 
-  // 8 Turbine Stages with Blading & Guide Vanes
-  for (var i = 0; i < 8; i++) {
-    var stageGrp = new THREE.Group();
-    var mat = (i === 5) ? goldMat : metalMat;
-    var baseR = 0.72 + i * 0.07;
-    var bLen = 0.22 + i * 0.04;
-    var numBlades = 44 + i * 4;
-    var posX = -2.55 + i * 0.73;
-
-    stageGrp.userData.origX = posX;
-    stageGrp.position.x = posX;
-
-    makeCyl(baseR, 0.10, 0, mat, stageGrp);
-    makeCyl(0.56, 0.26, 0, mat, stageGrp);
-
-    var bladeMesh = new THREE.InstancedMesh(new THREE.BoxGeometry(0.20, bLen, 0.03), mat, numBlades);
-    for (var j = 0; j < numBlades; j++) {
-      var bAngle = (j / numBlades) * Math.PI * 2;
-      var rad = baseR + bLen / 2 - 0.02;
-      dummyObj.position.set(0, Math.cos(bAngle) * rad, Math.sin(bAngle) * rad);
-      dummyObj.rotation.set(bAngle, 0.55, 0);
-      dummyObj.updateMatrix();
-      bladeMesh.setMatrixAt(j, dummyObj.matrix);
-    }
-    stageGrp.add(bladeMesh);
-
-    var shroudRing = new THREE.Mesh(new THREE.TorusGeometry(baseR + bLen, 0.02, 8, 72), mat);
-    shroudRing.rotation.y = Math.PI / 2;
-    stageGrp.add(shroudRing);
-
-    rotorGroup.add(stageGrp);
-    stages.push(stageGrp);
-
-    // Diaphragm with Stationary Guide Vanes
-    var diaGrp = new THREE.Group();
-    var diaX = -2.55 + (i - 0.5) * 0.73;
-    diaGrp.userData.origX = diaX;
-    diaGrp.position.x = diaX;
-
-    var diaHalf = new THREE.Mesh(diaGeom, diaphragmMat);
-    diaHalf.rotation.z = Math.PI / 2;
-    diaGrp.add(diaHalf);
-
-    var vaneMesh = new THREE.InstancedMesh(new THREE.BoxGeometry(0.12, 0.30, 0.025), brightSteelMat, 30);
-    for (var v = 0; v < 30; v++) {
-      var vAngle = Math.PI / 2 + (v / 29) * Math.PI;
-      var vRad = baseR + 0.12;
-      dummyObj.position.set(0, Math.cos(vAngle) * vRad, Math.sin(vAngle) * vRad);
-      dummyObj.rotation.set(vAngle, -0.55, 0);
-      dummyObj.updateMatrix();
-      vaneMesh.setMatrixAt(v, dummyObj.matrix);
-    }
-    diaGrp.add(vaneMesh);
-    masterGroup.add(diaGrp);
-    diaphragms.push(diaGrp);
+  function spawnParticle(e) {
+    var s = new THREE.Sprite(new THREE.SpriteMaterial({ map: steamTex, color: e.col, transparent: true, opacity: 0.5, depthWrite: false }));
+    s.position.set(e.x + (Math.random() - 0.5) * 2, e.y, e.z + (Math.random() - 0.5) * 2);
+    s.scale.setScalar(e.s);
+    s.userData = { e: e, a: 0, vx: 0.15 + Math.random() * 0.05, vz: (Math.random() - 0.5) * e.sp };
+    scene.add(s);
+    parts.push(s);
   }
 
-  // Lower Transparent Casing & Pedestals
-  var casingGeom = new THREE.CylinderGeometry(2.05, 2.05, 7.6, 40, 1, true, Math.PI, Math.PI);
-  var casingMesh = new THREE.Mesh(
-    casingGeom,
-    new THREE.MeshStandardMaterial({ color: 0x1d5a8e, transparent: true, opacity: 0.14, side: THREE.DoubleSide })
-  );
-  casingMesh.rotation.z = Math.PI / 2;
-  masterGroup.add(casingMesh);
+  // ===== CLEAN, ESSENTIAL LANDMARK LABELS =====
+  label('Chimney (125 m)', CX, H + 4, CZ);
+  label('Boiler Island', -20, 66, 0);
+  label('TG Hall', 25, 36, 0);
+  label('Cooling Towers', 52, 60, -52);
+  label('220kV Switchyard', 70, 26, 36);
+  label('Coal Handling', -20, 36, 56);
 
-  var casingWire = new THREE.Mesh(
-    casingGeom,
-    new THREE.MeshBasicMaterial({ color: 0x7fb4e6, wireframe: true, transparent: true, opacity: 0.22 })
-  );
-  casingWire.rotation.z = Math.PI / 2;
-  masterGroup.add(casingWire);
+  // ===== CAMERA, VIEWS & CLICK-TO-ZOOM ZONES =====
+  var TAU = Math.PI * 2;
+  // Centered rotation axis: rotates around the exact central point (-6, 22, -2) with compact scale (rad = 425)
+  var tgt = new THREE.Vector3(-6, 22, -2), th = 0.9, ph = 1.18, rad = 425;
+  var gt = tgt.clone(), gth = th, gph = ph, grad = rad, auto = true;
 
-  [-1, 1].forEach(function (s) {
-    var flange = new THREE.Mesh(new THREE.BoxGeometry(7.6, 0.05, 0.16), darkSteelMat);
-    flange.position.z = s * 2.05;
-    masterGroup.add(flange);
+  function setView(v) {
+    gt.set(v[0][0], v[0][1], v[0][2]);
+    gth = v[1] + TAU * Math.round((th - v[1]) / TAU);
+    gph = v[2];
+    grad = v[3];
+  }
+
+  var OV = [[-6, 22, -2], 0.9, 1.18, 425];
+
+  var Z = {
+    chimney: {
+      n: 'Chimney (125 m Stack)',
+      d: '125-meter multi-tier reinforced concrete chimney with aviation safety bands, inspection platforms, and high-intensity flashing beacon.',
+      b: [-93, -79, 0, 135, 6, 20],
+      v: [[-86, 62, 13], 0.45, 1.25, 195]
+    },
+    esp: {
+      n: 'ESP, ID Fans & Flue Ducts',
+      d: 'Electrostatic precipitators with pyramidal ash hoppers and induced-draft centrifugal fans delivering flue gas to the stack.',
+      b: [-70, -30, 0, 22, 3, 23],
+      v: [[-52, 12, 13], 0.65, 1.15, 100]
+    },
+    tg: {
+      n: 'TG Hall (Turbine Generator Floor)',
+      d: 'Turbine-Generator hall housing HP, IP, and double-flow LP turbine casings, generator rotor, overhead EOT crane, and condenser bay below.',
+      b: [2, 46, 0, 33, -12, 12],
+      v: [[26, 16, 0], -0.5, 1.05, 75]
+    },
+    boiler: {
+      n: 'Supercritical Boiler Island',
+      d: 'Supercritical steam generator structure, furnace, steam drum at 60m elevation, downcomers, and main high-pressure steam line.',
+      b: [-36, -3, 0, 66, -16, 12],
+      v: [[-18, 32, 0], 0.65, 1.2, 125]
+    },
+    coal: {
+      n: 'Coal Handling Plant',
+      d: 'Conveyor gallery transporting pulverized coal from the storage yard up into the boiler coal bunkers.',
+      b: [-27, -13, 0, 48, 14, 66],
+      v: [[-20, 20, 40], -0.6, 1.2, 105]
+    },
+    ct1: {
+      n: 'Natural Draft Cooling Towers',
+      d: 'Dual hyperboloid natural draft cooling towers with ring stiffeners and cold water collection basin.',
+      b: [17, 87, 0, 56, -69, -35],
+      v: [[52, 28, -52], -0.5, 1.25, 160]
+    },
+    sw: {
+      n: '220kV Switchyard & GT Transformers',
+      d: 'Generator Step-Up (GSU) transformers, SF6 switchgear skids, high-voltage busbars, and grid transmission gantries.',
+      b: [48, 102, 0, 26, 9, 51],
+      v: [[74, 12, 30], 0.5, 1.15, 105]
+    },
+    ctl: {
+      n: 'Control & Administration Complex',
+      d: 'Central control room (CCR) with advanced DCS panels overseeing thermal plant automation and plant auxiliaries.',
+      b: [10, 34, 0, 13, 33, 47],
+      v: [[22, 5, 40], 0.6, 1.2, 55]
+    }
+  };
+
+  var ZK = Object.keys(Z);
+
+  // Floating Info Card for Interactive Details (positioned bottom-right away from text)
+  var card = D.getElementById('plant-info-card');
+  var cT = card ? card.querySelector('.plant-info-title') : null;
+  var cD = card ? card.querySelector('.plant-info-desc') : null;
+  var cB = card ? card.querySelector('.plant-info-back') : null;
+  var cur = null;
+
+  function focusZone(k) {
+    cur = k;
+    var z = Z[k];
+    if (!z) return;
+    setView(z.v);
+    if (card && cT && cD) {
+      cT.textContent = z.n;
+      cD.textContent = z.d;
+      card.style.display = 'block';
+    }
+  }
+
+  function overview() {
+    cur = null;
+    setView(OV);
+    if (card) card.style.display = 'none';
+    viewButtons.forEach(function (b) {
+      b.classList.toggle('on', b.getAttribute('data-view') === 'over');
+    });
+  }
+
+  if (cB) cB.addEventListener('click', overview);
+
+  // View switch buttons
+  var viewButtons = D.querySelectorAll('.plant-btn[data-view]');
+  viewButtons.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var key = btn.getAttribute('data-view');
+      viewButtons.forEach(function (b) { b.classList.remove('on'); });
+      btn.classList.add('on');
+
+      if (key === 'over') overview();
+      else if (key === 'boiler') focusZone('boiler');
+      else if (key === 'tg') focusZone('tg');
+      else if (key === 'stack') focusZone('chimney');
+      else if (key === 'ct') focusZone('ct1');
+    });
   });
 
-  [-4.15, 4.15].forEach(function (bx) {
-    var bearingHalf = new THREE.Mesh(new THREE.CylinderGeometry(0.55, 0.55, 0.9, 24, 1, false, Math.PI, Math.PI), darkSteelMat);
-    bearingHalf.rotation.z = Math.PI / 2;
-    bearingHalf.position.x = bx;
-    masterGroup.add(bearingHalf);
+  // 360° Auto-rotation toggle
+  var rotBtn = D.getElementById('plant-btn-rot');
+  if (rotBtn) {
+    rotBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      auto = !auto;
+      rotBtn.classList.toggle('on', auto);
+      rotBtn.setAttribute('title', 'Toggle 360° Auto-Rotation (' + (auto ? 'On' : 'Off') + ')');
+      rotBtn.setAttribute('data-tip', '360°: ' + (auto ? 'On' : 'Off'));
+    });
+  }
 
-    var pedestal = new THREE.Mesh(new THREE.BoxGeometry(1.0, 0.5, 1.2), darkSteelMat);
-    pedestal.position.set(bx, -0.8, 0);
-    masterGroup.add(pedestal);
+  // Roof toggle
+  var roofOn = true;
+  var roofBtn = D.getElementById('plant-btn-roof');
+  if (roofBtn) {
+    roofBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      roofOn = !roofOn;
+      roof.visible = roofOn;
+      roofBtn.classList.toggle('on', roofOn);
+      roofBtn.setAttribute('title', 'Toggle TG Hall Roof (' + (roofOn ? 'On' : 'Off') + ')');
+      roofBtn.setAttribute('data-tip', 'Roof: ' + (roofOn ? 'On' : 'Off'));
+    });
+  }
+
+  // Labels toggle
+  var labOn = true;
+  var labBtn = D.getElementById('plant-btn-lab');
+  if (labBtn) {
+    labBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      labOn = !labOn;
+      labBtn.classList.toggle('on', labOn);
+      labBtn.setAttribute('title', 'Toggle Landmark Labels (' + (labOn ? 'On' : 'Off') + ')');
+      labBtn.setAttribute('data-tip', 'Labels: ' + (labOn ? 'On' : 'Off'));
+      labels.forEach(function (l) {
+        l.d.style.display = labOn ? '' : 'none';
+      });
+    });
+  }
+
+  // Raycasting for click-to-zoom directly on 3D modules
+  var rc = new THREE.Raycaster(), nd = new THREE.Vector2();
+  rc.camera = cam;
+  var pickList = null;
+
+  function pickZone(e) {
+    if (!pickList) {
+      pickList = [];
+      scene.traverse(function (o) {
+        if (o.isMesh && !o.isInstancedMesh && o !== groundMesh) pickList.push(o);
+      });
+    }
+    var rect = cv.getBoundingClientRect();
+    nd.set(((e.clientX - rect.left) / rect.width) * 2 - 1, -((e.clientY - rect.top) / rect.height) * 2 + 1);
+    rc.setFromCamera(nd, cam);
+    var hits = rc.intersectObjects(pickList, false);
+    for (var h = 0; h < hits.length; h++) {
+      var p = hits[h].point, m = 1.5;
+      for (var k = 0; k < ZK.length; k++) {
+        var b = Z[ZK[k]].b;
+        if (p.x > b[0] - m && p.x < b[1] + m && p.y > b[2] - m && p.y < b[3] + m && p.z > b[4] - m && p.z < b[5] + m) {
+          return ZK[k];
+        }
+      }
+    }
+    return null;
+  }
+
+  // Pointer drag, pan & click handling
+  var drag = 0, px = 0, py = 0, sx = 0, sy = 0, pan = false, hv = 0;
+  cv.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+  cv.addEventListener('pointerdown', function (e) {
+    drag = 1;
+    pan = (e.button === 2 || e.shiftKey);
+    px = sx = e.clientX;
+    py = sy = e.clientY;
+    try { cv.setPointerCapture(e.pointerId); } catch (_) {}
+    viewport.style.cursor = 'grabbing';
   });
 
-  // Interaction State
-  var mx = 0, my = 0;
-  var px = -9999, py = -9999;
-  var yaw = -0.55, pitch = 0.28;
-  var isHovered = false;
-  var u0 = 0, yaw0 = 0;
-  var lastTime = performance.now();
+  cv.addEventListener('pointerup', function (e) {
+    drag = 0;
+    try { cv.releasePointerCapture(e.pointerId); } catch (_) {}
+    viewport.style.cursor = 'grab';
 
-  W.addEventListener('pointermove', function (e) {
-    px = e.clientX;
-    py = e.clientY;
-    mx = px / W.innerWidth - 0.5;
-    my = py / W.innerHeight - 0.5;
-  }, { passive: true });
+    if (e.button === 0 && Math.hypot(e.clientX - sx, e.clientY - sy) < 6) {
+      var k = pickZone(e);
+      if (k && k !== cur) {
+        focusZone(k);
+      }
+    }
+  });
 
-  var cachedCardRect = heroCard.getBoundingClientRect();
+  cv.addEventListener('pointercancel', function () {
+    drag = 0;
+    viewport.style.cursor = 'grab';
+  });
 
-  function updateCardRect() {
-    cachedCardRect = heroCard.getBoundingClientRect();
-  }
-  W.addEventListener('scroll', updateCardRect, { passive: true });
-
-  function onResize() {
-    renderer.setSize(W.innerWidth, W.innerHeight, false);
-    camera.aspect = W.innerWidth / W.innerHeight;
-    camera.updateProjectionMatrix();
-    updateCardRect();
-  }
-  W.addEventListener('resize', onResize);
-  onResize();
-
-  function ease(x) { return x * x * (3 - 2 * x); }
-
-  function renderLoop(now) {
-    var dt = Math.min((now - lastTime) / 1000, 0.05);
-    lastTime = now;
-
-    var scrollY = W.scrollY || W.pageYOffset || 0;
-    var vh = W.innerHeight;
-    var cardRect = cachedCardRect;
-
-    var isHeroVisible = cardRect && cardRect.bottom > -50 && cardRect.top < vh + 50 && scrollY < vh * 1.5;
-
-    if (!isHeroVisible) {
-      canvas.style.opacity = '0';
-      canvas.style.pointerEvents = 'none';
-      requestAnimationFrame(renderLoop);
+  cv.addEventListener('pointermove', function (e) {
+    if (!drag) {
+      if (e.pointerType === 'mouse' && performance.now() - hv > 70) {
+        hv = performance.now();
+        var hit = pickZone(e);
+        viewport.style.cursor = hit ? 'pointer' : 'grab';
+      }
       return;
     }
+    var dx = e.clientX - px;
+    var dy = e.clientY - py;
+    px = e.clientX;
+    py = e.clientY;
 
-    var pixelsPerUnit = vh / (2 * Math.tan(camera.fov * Math.PI / 360) * camera.position.z);
-    var targetWidth = Math.max((cardRect && cardRect.width) || 0, W.innerWidth * 0.28);
-
-    var cardCenterX = ((cardRect && cardRect.left) || 0) + ((cardRect && cardRect.width) || 0) / 2;
-    var cardCenterY = ((cardRect && cardRect.top) || 0) + ((cardRect && cardRect.height) || 0) / 2;
-    masterGroup.position.set(
-      (cardCenterX - W.innerWidth / 2) / pixelsPerUnit,
-      -(cardCenterY - vh / 2) / pixelsPerUnit,
-      0
-    );
-    masterGroup.scale.setScalar(targetWidth / pixelsPerUnit / 10.6);
-
-    // Interactive Drag / Hover inside the Hero Card
-    var insideCard = !rm && cardRect && px >= cardRect.left - 20 && px <= cardRect.right + 20 &&
-      py >= cardRect.top - 20 && py <= cardRect.bottom + 20 && scrollY < vh * 0.9;
-    var u = cardRect && cardRect.width ? (px - cardRect.left) / cardRect.width : 0.5;
-    var v = cardRect && cardRect.height ? (py - cardRect.top) / cardRect.height : 0.5;
-    var targetYaw, targetPitch;
-    var TWO_PI = Math.PI * 2;
-
-    if (insideCard) {
-      if (!isHovered) {
-        isHovered = true;
-        u0 = u;
-        yaw0 = yaw;
-      }
-      targetYaw = yaw0 + (u - u0) * TWO_PI;
-      targetPitch = 0.28 + (v - 0.5) * 0.7;
+    if (pan) {
+      var k = grad * 0.0016;
+      var r = new THREE.Vector3();
+      cam.getWorldDirection(r);
+      r.cross(new THREE.Vector3(0, 1, 0)).normalize();
+      gt.addScaledVector(r, -dx * k);
+      gt.y += dy * k;
     } else {
-      isHovered = false;
-      var restYaw = -0.55 + mx * 0.4;
-      targetYaw = restYaw + Math.round((yaw - restYaw) / TWO_PI) * TWO_PI;
-      targetPitch = 0.28 + my * 0.25;
+      gth -= dx * 0.006;
+      gph = Math.min(1.5, Math.max(0.15, gph - dy * 0.006));
     }
+  });
 
-    yaw += (targetYaw - yaw) * 0.10;
-    pitch += (targetPitch - pitch) * 0.10;
+  cv.addEventListener('wheel', function (e) {
+    e.preventDefault();
+    grad = Math.min(520, Math.max(15, grad * (1 + e.deltaY * 0.001)));
+  }, { passive: false });
 
-    masterGroup.rotation.y = yaw;
-    masterGroup.rotation.x = pitch;
-
-    rotorGroup.rotation.x += rm ? 0 : dt * 0.55;
-
-    // Responsive Fade: Fade out smoothly ONLY when the rotor card actually leaves the viewport!
-    // On mobile, hero content comes first and card is below it, so tying fade directly to card position
-    // prevents the rotor from fading prematurely while the user is still scrolling down to inspect it.
-    var cardCenter = (cardRect ? cardRect.top + cardRect.height / 2 : 0);
-    var fadeOpacity = 1;
-    if (cardRect) {
-      if (cardRect.bottom < 100) {
-        fadeOpacity = Math.max(0, cardRect.bottom / 100);
-      } else if (cardRect.top > vh - 60) {
-        fadeOpacity = Math.max(0, (vh - cardRect.top) / 100);
-      }
+  var pd = 0;
+  cv.addEventListener('touchmove', function (e) {
+    if (e.touches.length === 2) {
+      var d = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      if (pd) grad = Math.min(520, Math.max(15, grad * pd / d));
+      pd = d;
     }
-    canvas.style.opacity = fadeOpacity.toFixed(2);
-    canvas.style.pointerEvents = (insideCard && fadeOpacity > 0.2) ? 'auto' : 'none';
+  }, { passive: true });
 
-    renderer.render(scene, camera);
-    requestAnimationFrame(renderLoop);
+  cv.addEventListener('touchend', function () { pd = 0; }, { passive: true });
+
+  // Sizing bounded to viewport
+  function onResize() {
+    var w = viewport.clientWidth || 600;
+    var h = viewport.clientHeight || 450;
+    R.setSize(w, h, false);
+    cam.aspect = w / h;
+    cam.updateProjectionMatrix();
   }
 
-  lastTime = performance.now();
-  requestAnimationFrame(renderLoop);
+  W.addEventListener('resize', onResize);
+  if ('ResizeObserver' in W && viewport) {
+    new ResizeObserver(onResize).observe(viewport);
+  }
+  setTimeout(onResize, 50);
+
+  // ===== COMPLETE STOP VISIBILITY OBSERVER: NO RENDERING WHEN SCROLLED AWAY =====
+  var clk = new THREE.Clock();
+  var isRunning = false;
+  var animId = null;
+
+  function loop() {
+    if (!isRunning) return;
+    animId = requestAnimationFrame(loop);
+
+    var dt = clk.getDelta();
+    var t = clk.elapsedTime;
+
+    tgt.lerp(gt, 0.06);
+    th += (gth - th) * 0.06;
+    ph += (gph - ph) * 0.06;
+    rad += (grad - rad) * 0.06;
+
+    cam.position.set(
+      tgt.x + rad * Math.sin(ph) * Math.sin(th),
+      tgt.y + rad * Math.cos(ph),
+      tgt.z + rad * Math.sin(ph) * Math.cos(th)
+    );
+    cam.lookAt(tgt);
+
+    if (auto && !drag) gth += dt * 0.15;
+
+    rot.rotation.x += dt * 14;
+    crane.position.x = 24 + Math.sin(t * 0.25) * 14;
+    beacon.material.color.setHex(Math.sin(t * 3) > 0 ? 0xff2020 : 0x330000);
+
+    // Live steam & smoke particles (rate limited)
+    ems.forEach(function (e) {
+      e.t += e.rate * 60 * dt;
+      while (e.t > 1) {
+        e.t -= 1;
+        if (parts.length < 40) spawnParticle(e);
+      }
+    });
+
+    for (var i = parts.length - 1; i >= 0; i--) {
+      var s = parts[i];
+      var u = s.userData;
+      u.a++;
+      s.position.x += u.vx;
+      s.position.y += u.e.vy;
+      s.position.z += u.vz;
+      s.scale.setScalar(s.scale.x + u.e.grow);
+      s.material.opacity = 0.5 * (1 - u.a / u.e.life);
+      if (u.a >= u.e.life) {
+        scene.remove(s);
+        s.material.dispose();
+        parts.splice(i, 1);
+      }
+    }
+
+    // Project 3D labels safely bounded within viewport (never colliding with left text)
+    if (labOn && labelsContainer) {
+      var vw = viewport.clientWidth;
+      var vh = viewport.clientHeight;
+      for (var li = 0; li < labels.length; li++) {
+        var l = labels[li];
+        var p = l.v.clone().project(cam);
+        if (p.z > 1 || p.z < -1 || p.x < -0.92 || p.x > 0.92 || p.y < -0.92 || p.y > 0.92) {
+          l.d.style.display = 'none';
+        } else {
+          l.d.style.display = '';
+          l.d.style.left = ((p.x * 0.5 + 0.5) * vw) + 'px';
+          l.d.style.top = ((-p.y * 0.5 + 0.5) * vh) + 'px';
+        }
+      }
+    }
+
+    R.render(scene, cam);
+  }
+
+  function startLoop() {
+    if (isRunning) return;
+    isRunning = true;
+    clk.getDelta(); // flush delta so no time jump
+    animId = requestAnimationFrame(loop);
+  }
+
+  function stopLoop() {
+    if (!isRunning) return;
+    isRunning = false;
+    if (animId) {
+      cancelAnimationFrame(animId);
+      animId = null;
+    }
+  }
+
+  if ('IntersectionObserver' in W && viewport) {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          startLoop();
+        } else {
+          stopLoop();
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '50px' });
+    observer.observe(viewport);
+  } else {
+    startLoop();
+  }
 })();
+
 
 /* ==========================================================================
    ENGINE 2: COMPLETE TURBINE & GENERATOR ASSEMBLY BAY (#stg-canvas, #stg-stage-wrapper)

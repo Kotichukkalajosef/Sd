@@ -191,18 +191,17 @@ img {
   padding-bottom: 50px;
 }
 
-/* Three.js Fixed Background Canvas for Hero */
-#gl {
-  position: fixed;
+/* Hero 3D Canvas is mounted inside .plant-viewport */
+.plant-canvas {
+  position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  z-index: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
+  display: block;
+  touch-action: none;
 }
 
-/* Transparent Header & Navigation */
+/* Transparent Header & Navigation with 90% Glowing Divider */
 .site-header {
   position: relative;
   top: 0;
@@ -210,6 +209,27 @@ img {
   background: transparent;
   border-bottom: none;
   transition: all 0.3s ease;
+}
+
+/* 90% Width Glowing White Divider Line with Left & Right Gaps */
+.site-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  width: 90%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.35) 12%,
+    rgba(255, 255, 255, 0.92) 50%,
+    rgba(255, 255, 255, 0.35) 88%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.5), 0 0 16px rgba(255, 255, 255, 0.25);
+  pointer-events: none;
+  z-index: 10;
 }
 
 .nav-wrapper {
@@ -286,13 +306,14 @@ img {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 40px;
-  padding: 24px 0 32px;
-  min-height: calc(85vh - 120px);
+  gap: 24px;
+  padding: 10px 0 24px;
+  min-height: calc(90vh - 100px);
 }
 
 .hero-content {
-  flex: 1 1 540px;
+  flex: 1.1 1 500px;
+  max-width: 590px;
   min-width: 0;
   position: relative;
   z-index: 2;
@@ -348,22 +369,22 @@ img {
   letter-spacing: 0.06em;
 }
 
-/* Kinetic Animated Hero Title */
+/* Kinetic Animated Hero Title - Bold, Big & Impactful */
 .hero-title {
   color: #ffffff;
-  font-size: clamp(34px, 4.2vw, 62px);
-  line-height: 1.08;
+  font-size: clamp(34px, 4vw, 56px);
+  line-height: 1.1;
   font-weight: 800;
-  letter-spacing: -0.035em;
-  margin-bottom: 16px;
+  letter-spacing: -0.03em;
+  margin-bottom: 14px;
 }
 
 .hero-rotator-wrapper {
   display: block;
   position: relative;
-  /* Reserved height accommodates 2 lines so long titles like O&M (Operation and Maintenance) never shift or push the description and buttons below! */
-  min-height: clamp(80px, 9.5vw, 136px);
-  max-width: 640px;
+  /* Reserved height accommodates titles cleanly */
+  min-height: clamp(72px, 8vw, 114px);
+  max-width: 600px;
 }
 
 .hero-highlight-word {
@@ -383,20 +404,20 @@ img {
 }
 
 .hero-desc {
-  font-size: clamp(15px, 1.15vw, 17.5px);
+  font-size: clamp(15px, 1.15vw, 17px);
   line-height: 1.6;
   color: var(--text-hero-muted);
-  max-width: 600px;
-  margin-bottom: 22px;
+  max-width: 580px;
+  margin-bottom: 24px;
 }
 
-/* Interactive Hero Services Showcase Grid */
+/* Interactive Hero Services Showcase Grid - Prominent & Clear */
 .hero-services-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
-  margin-bottom: 26px;
-  max-width: 620px;
+  margin-bottom: 24px;
+  max-width: 600px;
 }
 
 @media (max-width: 580px) {
@@ -415,11 +436,13 @@ img {
   border-radius: 12px;
   color: #ffffff;
   text-decoration: none;
-  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  backdrop-filter: blur(10px);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   position: relative;
   overflow: hidden;
   cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .hero-svc-chip::before {
@@ -428,15 +451,15 @@ img {
   inset: 0;
   background: linear-gradient(90deg, rgba(56, 189, 248, 0.14), transparent);
   opacity: 0;
-  transition: opacity 0.25s ease;
+  transition: opacity 0.22s ease;
   pointer-events: none;
 }
 
 .hero-svc-chip:hover {
   border-color: #38bdf8;
   background: rgba(14, 46, 78, 0.92);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px -6px rgba(56, 189, 248, 0.3);
+  transform: translateY(-1.5px);
+  box-shadow: 0 6px 16px -4px rgba(56, 189, 248, 0.25);
 }
 
 .hero-svc-chip:hover::before,
@@ -445,28 +468,33 @@ img {
 }
 
 .hero-svc-chip.active {
-  border-color: rgba(56, 189, 248, 0.7);
-  background: rgba(14, 48, 80, 0.88);
-  box-shadow: inset 0 0 16px rgba(56, 189, 248, 0.15);
+  border-color: rgba(56, 189, 248, 0.8);
+  background: rgba(14, 48, 80, 0.9);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.25), inset 0 0 12px rgba(56, 189, 248, 0.12);
 }
 
 .svc-chip-icon {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
   background: rgba(56, 189, 248, 0.12);
-  border: 1px solid rgba(56, 189, 248, 0.28);
+  border: 1px solid rgba(56, 189, 248, 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #38bdf8;
   flex-shrink: 0;
-  transition: transform 0.25s ease, background 0.25s ease, color 0.25s ease;
+  transition: transform 0.22s ease, background 0.22s ease, color 0.22s ease;
+}
+
+.svc-chip-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 .hero-svc-chip:hover .svc-chip-icon,
 .hero-svc-chip.active .svc-chip-icon {
-  transform: scale(1.08);
+  transform: scale(1.06);
   background: rgba(56, 189, 248, 0.25);
   color: #ffffff;
   border-color: #38bdf8;
@@ -509,8 +537,18 @@ img {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   margin-bottom: 24px;
+}
+
+/* Bold Prominent Hero CTA Buttons */
+.hero-actions .btn {
+  padding: 12px 26px;
+  font-size: 14px;
+  font-weight: 700;
+  min-height: 46px;
+  border-radius: 999px;
+  gap: 8px;
 }
 
 .hero-trust-badges {
@@ -519,17 +557,18 @@ img {
   gap: 16px;
   align-items: center;
   color: var(--text-hero-dim);
-  font-size: 12.5px;
+  font-size: 12px;
 }
 
 .hero-visual {
-  flex: 1 1 440px;
+  flex: 1.45 1 560px;
   min-width: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   position: relative;
-  min-height: 440px;
+  min-height: 560px;
+  align-self: stretch;
 }
 
 .scene-card {
@@ -2410,7 +2449,7 @@ svg#stg-ln {
     background: rgba(11, 35, 59, 0.85);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: none;
   }
   .nav-wrapper {
     padding: 14px 18px;
@@ -2978,5 +3017,172 @@ svg#stg-ln {
   }
   .menu-toggle {
     display: inline-flex !important;
+  }
+}
+
+
+/* ===================================================================
+   HERO THERMAL POWER PLANT 3D INTERACTIVE STYLES
+   =================================================================== */
+/* ==========================================================================
+   Hero 3D Thermal Power Plant - Floating In Air (Transparent, No Window Frame)
+   ========================================================================== */
+.hero-visual {
+  flex: 1.45 1 560px;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 560px;
+  align-self: stretch;
+}
+
+.plant-floating-stage {
+  width: 100%;
+  max-width: 760px;
+  height: 100%;
+  min-height: 560px;
+  position: relative;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  padding: 0;
+  margin: 0 auto;
+}
+
+/* Seamless 3D Viewport - Floating in Air */
+.plant-viewport {
+  position: relative;
+  flex: 1 1 auto;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  background: transparent;
+  cursor: grab;
+}
+
+.plant-viewport:active {
+  cursor: grabbing;
+}
+
+.plant-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: transparent;
+  touch-action: none;
+}
+
+.plant-3d-labels {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+
+.plant-lbl {
+  position: absolute;
+  pointer-events: none;
+  color: #ffffff;
+  background: rgba(7, 20, 34, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-left: 3px solid #38bdf8;
+  border-top: 1px solid rgba(56, 189, 248, 0.2);
+  border-right: 1px solid rgba(56, 189, 248, 0.2);
+  border-bottom: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 4px;
+  padding: 1.5px 6px;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  transform: translate(6px, -50%);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+/* Interactive Floating Detail Info Card - Positioned on right to avoid text collision */
+.plant-info-card {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  max-width: min(320px, 80%);
+  background: rgba(8, 20, 36, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-left: 4px solid #38bdf8;
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: #e2e8f0;
+  font-size: 12px;
+  line-height: 1.45;
+  z-index: 20;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);
+  text-align: left;
+}
+
+.plant-info-title {
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.plant-info-desc {
+  color: #94a3b8;
+  font-size: 11.5px;
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+
+.plant-info-back {
+  background: rgba(56, 189, 248, 0.18);
+  border: 1px solid #38bdf8;
+  color: #38bdf8;
+  border-radius: 999px;
+  padding: 3px 11px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  transition: all 0.2s ease;
+}
+
+.plant-info-back:hover {
+  background: #38bdf8;
+  color: #071726;
+}
+
+@media (max-width: 900px) {
+  .hero-visual {
+    min-height: 480px;
+  }
+  .plant-floating-stage {
+    min-height: 480px;
+    height: 480px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-visual {
+    min-height: 400px;
+  }
+  .plant-floating-stage {
+    min-height: 400px;
+    height: 400px;
+    max-width: 100%;
   }
 }

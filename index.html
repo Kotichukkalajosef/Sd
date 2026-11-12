@@ -21,9 +21,6 @@
 
   <!-- Hero Zone: Midnight Blue Theme with Rounded Bottom Transition -->
   <div class="hero-zone">
-    <!-- Three.js Canvas for Hero Rotor 3D View -->
-    <canvas id="gl" aria-hidden="true"></canvas>
-
     <!-- Transparent Navigation Header -->
     <header class="site-header">
       <div class="nav-wrapper">
@@ -234,10 +231,21 @@
           </div>
         </div>
 
-        <!-- 3D Interactive Turbine Visual Container (Rotor) -->
+        <!-- Floating 3D Thermal Power Plant Complex (Compact & Clean) -->
         <div class="hero-visual">
-          <div class="scene-card" role="img" aria-label="Interactive 3D Steam Turbine Rotor with Diaphragms">
-            <div class="scene-guide">SWEEP / DRAG TO ROTATE 360°</div>
+          <div class="plant-floating-stage" role="region" aria-label="Interactive 3D Supercritical Thermal Power Plant Station">
+            <!-- Seamless 3D Viewport: Plant Floats in the Air -->
+            <div class="plant-viewport" id="plant-viewport">
+              <canvas id="gl" class="plant-canvas" aria-label="Interactive Thermal Power Plant 3D View"></canvas>
+              <!-- 3D Projected Engineering Landmark Labels Container -->
+              <div id="plant-3d-labels" class="plant-3d-labels"></div>
+              <!-- Floating Detail Info Card (appears when clicking equipment zones) -->
+              <div id="plant-info-card" class="plant-info-card" style="display: none;">
+                <b class="plant-info-title"></b>
+                <div class="plant-info-desc"></div>
+                <button type="button" class="plant-info-back">&larr; Back to Overview</button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
